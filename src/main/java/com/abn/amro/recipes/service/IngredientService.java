@@ -1,4 +1,4 @@
-package com.abn.amro.ingredients.service;
+package com.abn.amro.recipes.service;
 
 import com.abn.amro.recipes.entity.Ingredient;
 import com.abn.amro.recipes.repository.IngredientRepository;

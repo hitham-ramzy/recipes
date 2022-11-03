@@ -1,8 +1,8 @@
-package com.abn.amro.ingredients.resource;
+package com.abn.amro.recipes.resource;
 
 
-import com.abn.amro.ingredients.service.IngredientService;
 import com.abn.amro.recipes.entity.Ingredient;
+import com.abn.amro.recipes.service.IngredientService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
