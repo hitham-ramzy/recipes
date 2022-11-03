@@ -20,7 +20,7 @@ public class RecipeIngredient {
     private Integer id;
 
     @ManyToOne
-    private Recipe recipe;
+    private Ingredient ingredient;
 
     private Double amount;
 }
