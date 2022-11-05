@@ -1,10 +1,9 @@
 package com.abn.amro.recipes.service;
 
-import com.abn.amro.recipes.entity.Ingredient;
+import com.abn.amro.recipes.mapper.IngredientMapper;
+import com.abn.amro.recipes.model.Ingredient;
+import com.abn.amro.recipes.model.dto.IngredientDTO;
 import com.abn.amro.recipes.repository.IngredientRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +17,9 @@ public class IngredientService {
         this.ingredientRepository = ingredientRepository;
     }
 
-    public Ingredient save(Ingredient ingredient) {
+    public Ingredient save(IngredientDTO ingredientDTO) {
+        // TODO :: think about move the mapping into different layer, as the service layer should not depend on the DTOs
+        Ingredient ingredient = IngredientMapper.INSTANCE.mapDtoToIngredient(ingredientDTO);
         return ingredientRepository.save(ingredient);
     }
 
@@ -26,15 +27,11 @@ public class IngredientService {
         return ingredientRepository.findById(id).orElse(null);
     }
 
+    public List<Ingredient> findByIds(List<Long> ids) {
+        return ingredientRepository.findAllById(ids);
+    }
+
     public List<Ingredient> findAll() {
         return ingredientRepository.findAll();
-    }
-
-    public Page<Ingredient> findAll(Pageable pageable) {
-        return ingredientRepository.findAll(pageable);
-    }
-
-    public Page<Ingredient> search(Specification<Ingredient> specification, Pageable pageable) {
-        return ingredientRepository.findAll(specification, pageable);
     }
 }

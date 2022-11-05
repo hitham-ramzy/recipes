@@ -1,9 +1,11 @@
-package com.abn.amro.recipes.entity;
+package com.abn.amro.recipes.model;
 
-import com.abn.amro.recipes.entity.enums.IngredientUnit;
+import com.abn.amro.recipes.model.enums.IngredientUnit;
 import lombok.Data;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -16,7 +18,10 @@ import javax.persistence.Table;
 public class Ingredient {
 
     @Id
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
 
     private IngredientUnit unit;
 }

@@ -1,4 +1,4 @@
-package com.abn.amro.recipes.entity.enums;
+package com.abn.amro.recipes.model.enums;
 
 /**
  * The enum Recipe type.
