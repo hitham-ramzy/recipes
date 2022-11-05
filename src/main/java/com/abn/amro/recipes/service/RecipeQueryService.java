@@ -1,9 +1,10 @@
 package com.abn.amro.recipes.service;
 
-import com.abn.amro.recipes.mapper.RecipeMapstructMapper;
+import com.abn.amro.recipes.mapper.RecipeMapper;
 import com.abn.amro.recipes.model.Ingredient;
 import com.abn.amro.recipes.model.Recipe;
 import com.abn.amro.recipes.model.RecipeIngredient;
+import com.abn.amro.recipes.model.RecipeType;
 import com.abn.amro.recipes.model.criteria.RecipeCriteria;
 import com.abn.amro.recipes.model.dto.RecipeDTO;
 import com.abn.amro.recipes.model.dto.RecipeIngredientDTO;
@@ -21,9 +22,12 @@ public class RecipeQueryService {
     private final IngredientService ingredientService;
     private final RecipeService recipeService;
 
-    public RecipeQueryService(IngredientService ingredientService, RecipeService recipeRepository) {
+    private final RecipeTypeService recipeTypeService;
+
+    public RecipeQueryService(IngredientService ingredientService, RecipeService recipeRepository, RecipeTypeService recipeTypeService) {
         this.ingredientService = ingredientService;
         this.recipeService = recipeRepository;
+        this.recipeTypeService = recipeTypeService;
     }
 
 
@@ -45,11 +49,11 @@ public class RecipeQueryService {
             if (criteria.getName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getName(), "name"));
             }
-            if (criteria.getType() != null) {
-                specification = specification.and(buildSpecification(criteria.getType(), "type"));
+            if (criteria.getType() != null) { // TODO :: check join
+                specification = specification.and(buildSpecification(criteria.getType(), "recipe_type"));
             }
             if (criteria.getInstructions() != null) {
-                specification = specification.and(buildSpecification(criteria.getInstructions(), "instructions"));
+                specification = specification.and(buildStringSpecification(criteria.getInstructions(), "instructions"));
             }
             if (criteria.getNumberOfServings() != null) {
                 specification = specification.and(buildSpecification(criteria.getNumberOfServings(), "numberOfServings"));
@@ -59,7 +63,15 @@ public class RecipeQueryService {
     }
 
     private Recipe mapFromDTO(RecipeDTO recipeDTO) {
-        Recipe recipe = RecipeMapstructMapper.INSTANCE.mapDtoToRecipe(recipeDTO);
+        Recipe recipe = RecipeMapper.INSTANCE.mapDtoToRecipe(recipeDTO);
+
+        RecipeType recipeType = recipeTypeService.findById(recipeDTO.getRecipeTypeId());
+        if (recipeType == null){
+            // TODO :: enhance the way to throw exception and display more handy message by catching it
+            throw new RuntimeException("Wrong recipe type Id.");
+        }
+        recipe.setRecipeType(recipeType);
+
 
         List<Long> ingredientIds = recipeDTO.getRecipeIngredientDTOS().stream()
                 .map(RecipeIngredientDTO::getIngredientId).collect(Collectors.toList());
@@ -69,6 +81,8 @@ public class RecipeQueryService {
             // TODO :: enhance the way to throw exception and display more handy message by catching it
             throw new RuntimeException("Wrong Ingredient Id added");
         }
+
+
 
         recipe.setRecipeIngredients(
                 ingredients.stream().map(ingredient ->

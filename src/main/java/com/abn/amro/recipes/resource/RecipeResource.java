@@ -39,7 +39,7 @@ public class RecipeResource {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Recipe>> findBy(RecipeCriteria criteria) {
+    public ResponseEntity<List<Recipe>> findAll(RecipeCriteria criteria) {
         return ResponseEntity.ok(recipeQueryService.findAll(criteria));
     }
 

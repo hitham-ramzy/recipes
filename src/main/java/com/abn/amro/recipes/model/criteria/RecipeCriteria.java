@@ -1,6 +1,6 @@
 package com.abn.amro.recipes.model.criteria;
 
-import com.abn.amro.recipes.model.enums.RecipeType;
+import com.abn.amro.recipes.model.RecipeType;
 import lombok.Data;
 
 

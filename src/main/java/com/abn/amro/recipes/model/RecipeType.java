@@ -10,14 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * The type Ingredient and its unit used.
+ * The type Recipe type.
  */
+
 @Data
 @Entity
-@Table(name = "ingredient")
-public class Ingredient {
-
-//    TODO :: add seed data
+@Table(name = "recipe_type")
+public class RecipeType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,4 +24,5 @@ public class Ingredient {
 
     @Column(unique = true)
     private String name;
+
 }

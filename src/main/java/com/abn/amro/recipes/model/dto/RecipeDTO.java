@@ -1,6 +1,5 @@
 package com.abn.amro.recipes.model.dto;
 
-import com.abn.amro.recipes.model.enums.RecipeType;
 import lombok.Data;
 
 import java.util.List;
@@ -11,7 +10,7 @@ public class RecipeDTO {
 
     private String name;
 
-    private RecipeType type;
+    private Long recipeTypeId;
 
     private String instructions;
 

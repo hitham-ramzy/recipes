@@ -16,6 +16,7 @@ public class IngredientService {
     }
 
     public Ingredient save(Ingredient ingredient) {
+        validate(ingredient);
         return ingredientRepository.save(ingredient);
     }
 
@@ -29,5 +30,13 @@ public class IngredientService {
 
     public List<Ingredient> findAll() {
         return ingredientRepository.findAll();
+    }
+
+
+    private void validate(Ingredient ingredient) {
+        Ingredient savedIngredient = ingredientRepository.findOneByName(ingredient.getName());
+        if (savedIngredient != null) {
+            throw new RuntimeException("Name Already Exist");
+        }
     }
 }
