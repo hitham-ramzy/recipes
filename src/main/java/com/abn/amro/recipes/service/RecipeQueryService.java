@@ -8,6 +8,7 @@ import com.abn.amro.recipes.model.RecipeType;
 import com.abn.amro.recipes.model.criteria.RecipeCriteria;
 import com.abn.amro.recipes.model.dto.RecipeDTO;
 import com.abn.amro.recipes.model.dto.RecipeIngredientDTO;
+import static com.abn.amro.recipes.utils.SpecificationUtils.buildReferenceSpecification;
 import static com.abn.amro.recipes.utils.SpecificationUtils.buildSpecification;
 import static com.abn.amro.recipes.utils.SpecificationUtils.buildStringSpecification;
 import org.springframework.data.jpa.domain.Specification;
@@ -49,14 +50,14 @@ public class RecipeQueryService {
             if (criteria.getName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getName(), "name"));
             }
-            if (criteria.getType() != null) { // TODO :: check join
-                specification = specification.and(buildSpecification(criteria.getType(), "recipe_type"));
-            }
             if (criteria.getInstructions() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getInstructions(), "instructions"));
             }
             if (criteria.getNumberOfServings() != null) {
                 specification = specification.and(buildSpecification(criteria.getNumberOfServings(), "numberOfServings"));
+            }
+            if (criteria.getRecipeTypeName() != null) {
+                specification = specification.and(buildReferenceSpecification(criteria.getRecipeTypeName(), "recipeType", "name"));
             }
         }
         return specification;
@@ -66,7 +67,7 @@ public class RecipeQueryService {
         Recipe recipe = RecipeMapper.INSTANCE.mapDtoToRecipe(recipeDTO);
 
         RecipeType recipeType = recipeTypeService.findById(recipeDTO.getRecipeTypeId());
-        if (recipeType == null){
+        if (recipeType == null) {
             // TODO :: enhance the way to throw exception and display more handy message by catching it
             throw new RuntimeException("Wrong recipe type Id.");
         }
@@ -81,7 +82,6 @@ public class RecipeQueryService {
             // TODO :: enhance the way to throw exception and display more handy message by catching it
             throw new RuntimeException("Wrong Ingredient Id added");
         }
-
 
 
         recipe.setRecipeIngredients(
