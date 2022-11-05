@@ -7,6 +7,7 @@ import java.util.List;
 
 @Data
 public class RecipeDTO {
+//    TODO :: add checks
 
     private String name;
 

@@ -6,9 +6,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
-public interface RecipeMapper {
+public interface RecipeMapstructMapper {
 
-    RecipeMapper INSTANCE = Mappers.getMapper(RecipeMapper.class);
+    RecipeMapstructMapper INSTANCE = Mappers.getMapper(RecipeMapstructMapper.class);
 
     Recipe mapDtoToRecipe(RecipeDTO recipeDTO);
 }

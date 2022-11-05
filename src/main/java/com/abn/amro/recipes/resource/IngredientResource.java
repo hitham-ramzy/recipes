@@ -1,9 +1,9 @@
 package com.abn.amro.recipes.resource;
 
 
-import com.abn.amro.recipes.mapper.IngredientMapper;
 import com.abn.amro.recipes.model.Ingredient;
 import com.abn.amro.recipes.model.dto.IngredientDTO;
+import com.abn.amro.recipes.service.IngredientQueryService;
 import com.abn.amro.recipes.service.IngredientService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,14 +20,16 @@ import java.util.List;
 public class IngredientResource {
 
     private final IngredientService ingredientService;
+    private final IngredientQueryService ingredientQueryService;
 
-    public IngredientResource(IngredientService ingredientService) {
+    public IngredientResource(IngredientService ingredientService, IngredientQueryService ingredientQueryService) {
         this.ingredientService = ingredientService;
+        this.ingredientQueryService = ingredientQueryService;
     }
 
     @PostMapping()
     public ResponseEntity<Ingredient> save(@RequestBody IngredientDTO ingredientDTO) {
-        return ResponseEntity.ok(ingredientService.save(ingredientDTO));
+        return ResponseEntity.ok(ingredientQueryService.save(ingredientDTO));
     }
 
     @GetMapping()
