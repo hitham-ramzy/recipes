@@ -42,10 +42,6 @@
             <version>RELEASE</version>
             <scope>compile</scope>
         </dependency>
-        <!--<dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-        </dependency>-->
 
         <dependency>
             <groupId>mysql</groupId>
@@ -139,23 +135,6 @@
                 <artifactId>liquibase-maven-plugin</artifactId>
                 <version>${liquibase.version}</version>
                 <configuration>
-                    <!--<propertyFile>src/main/resources/liquibase.properties</propertyFile>
-                    <changeLogFile>src/main/resources/db.changelog/db.changelog-master.xml</changeLogFile>
-                    <driver>org.h2.Driver</driver>
-                    <username>sa</username>
-                    <password>password</password>
-                    <url>jdbc:h2:mem:recipes</url>-->
-                    <propertyFile>src/main/resources/liquibase.properties</propertyFile>
-                    <changeLogFile>src/main/resources/db.changelog/db.changelog-master.xml</changeLogFile>
-                    <driver>com.mysql.jdbc.Driver</driver>
-                    <username>root</username>
-                    <password>password</password>
-                    <url>jdbc:mysql://localhost:3306/recipes_db</url>
-                    <referenceUrl>
-                        hibernate:spring:com.abn.amro.recipes.model?dialect=org.hibernate.dialect.MySQL5InnoDBDialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
-                    </referenceUrl>
-                    <referenceDriver>liquibase.ext.hibernate.database.connection.HibernateDriver</referenceDriver>
-                    <defaultSchemaName>recipes_db</defaultSchemaName>
                     <verbose>true</verbose>
                     <logging>debug</logging>
                 </configuration>
@@ -196,11 +175,6 @@
                         <artifactId>javassist</artifactId>
                         <version>3.18.1-GA</version>
                     </dependency>
-                    <!--                    <dependency>-->
-                    <!--&lt;!&ndash;                        <groupId>mysql</groupId>&ndash;&gt;-->
-                    <!--&lt;!&ndash;                        <artifactId>mysql-connector-java</artifactId>&ndash;&gt;-->
-                    <!--                        &lt;!&ndash;                        <version>8.0.26</version>&ndash;&gt;-->
-                    <!--                    </dependency>-->
                 </dependencies>
             </plugin>
         </plugins>

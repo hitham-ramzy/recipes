@@ -5,18 +5,17 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet author="hitham-ramzy" id="202211060504-1">
+    <changeSet author="hitham-ramzy" id="202211061140-1">
         <loadData encoding="UTF-8"
                   file="liquibase/ingredients.csv"
                   separator=";"
                   tableName="ingredient"/>
     </changeSet>
 
-    <changeSet author="hitham-ramzy" id="202211060504-2">
+    <changeSet author="hitham-ramzy" id="202211061140-2">
         <loadData encoding="UTF-8"
                   file="liquibase/recipeTypes.csv"
                   separator=";"
                   tableName="recipe_type"/>
     </changeSet>
-
 </databaseChangeLog>
