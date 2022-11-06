@@ -18,7 +18,7 @@
         <springfox.version>3.0.0</springfox.version>
         <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
         <org.projectlombok.version>1.18.24</org.projectlombok.version>
-        <liquibase.version>4.17.1</liquibase.version>
+        <liquibase.version>4.17.2</liquibase.version>
     </properties>
     <dependencies>
         <dependency>
