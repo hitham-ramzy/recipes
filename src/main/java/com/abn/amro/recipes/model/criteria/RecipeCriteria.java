@@ -8,9 +8,15 @@ public class RecipeCriteria {
 
     private StringFilter name;
 
-    private StringFilter recipeTypeName;
-
     private StringFilter instructions;
 
     private IntegerFilter numberOfServings;
+
+    private LongFilter recipeTypeId;
+
+    private StringFilter recipeTypeName;
+
+    private LongFilter ingredientId;
+
+    private StringFilter ingredientName;
 }

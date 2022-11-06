@@ -8,8 +8,11 @@ import com.abn.amro.recipes.model.RecipeType;
 import com.abn.amro.recipes.model.criteria.RecipeCriteria;
 import com.abn.amro.recipes.model.dto.RecipeDTO;
 import com.abn.amro.recipes.model.dto.RecipeIngredientDTO;
+import static com.abn.amro.recipes.utils.SpecificationUtils.buildDeepReferenceSpecification;
 import static com.abn.amro.recipes.utils.SpecificationUtils.buildReferenceSpecification;
 import static com.abn.amro.recipes.utils.SpecificationUtils.buildSpecification;
+import static com.abn.amro.recipes.utils.SpecificationUtils.buildStringDeepReferenceSpecification;
+import static com.abn.amro.recipes.utils.SpecificationUtils.buildStringReferenceSpecification;
 import static com.abn.amro.recipes.utils.SpecificationUtils.buildStringSpecification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -56,8 +59,17 @@ public class RecipeQueryService {
             if (criteria.getNumberOfServings() != null) {
                 specification = specification.and(buildSpecification(criteria.getNumberOfServings(), "numberOfServings"));
             }
+            if (criteria.getRecipeTypeId() != null) {
+                specification = specification.and(buildReferenceSpecification(criteria.getRecipeTypeId(), "recipeType", "id"));
+            }
             if (criteria.getRecipeTypeName() != null) {
-                specification = specification.and(buildReferenceSpecification(criteria.getRecipeTypeName(), "recipeType", "name"));
+                specification = specification.and(buildStringReferenceSpecification(criteria.getRecipeTypeName(), "recipeType", "name"));
+            }
+            if (criteria.getIngredientId() != null) {// TODO :: enhance it by avoid joining ingredient table
+                specification = specification.and(buildDeepReferenceSpecification(criteria.getIngredientId(), "recipeIngredients", "ingredient", "id"));
+            }
+            if (criteria.getIngredientName() != null) {
+                specification = specification.and(buildStringDeepReferenceSpecification(criteria.getIngredientName(), "recipeIngredients", "ingredient", "name"));
             }
         }
         return specification;
