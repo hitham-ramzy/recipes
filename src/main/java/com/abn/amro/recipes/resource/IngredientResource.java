@@ -1,8 +1,10 @@
-package com.abn.amro.ingredients.resource;
+package com.abn.amro.recipes.resource;
 
 
-import com.abn.amro.ingredients.service.IngredientService;
-import com.abn.amro.recipes.entity.Ingredient;
+import com.abn.amro.recipes.model.Ingredient;
+import com.abn.amro.recipes.model.dto.IngredientDTO;
+import com.abn.amro.recipes.service.IngredientQueryService;
+import com.abn.amro.recipes.service.IngredientService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,14 +20,16 @@ import java.util.List;
 public class IngredientResource {
 
     private final IngredientService ingredientService;
+    private final IngredientQueryService ingredientQueryService;
 
-    public IngredientResource(IngredientService ingredientService) {
+    public IngredientResource(IngredientService ingredientService, IngredientQueryService ingredientQueryService) {
         this.ingredientService = ingredientService;
+        this.ingredientQueryService = ingredientQueryService;
     }
 
     @PostMapping()
-    public ResponseEntity<Ingredient> save(@RequestBody Ingredient ingredient) {
-        return ResponseEntity.ok(ingredientService.save(ingredient));
+    public ResponseEntity<Ingredient> save(@RequestBody IngredientDTO ingredientDTO) {
+        return ResponseEntity.ok(ingredientQueryService.save(ingredientDTO));
     }
 
     @GetMapping()

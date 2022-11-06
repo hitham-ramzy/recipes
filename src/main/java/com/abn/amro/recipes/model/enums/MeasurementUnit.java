@@ -1,9 +1,9 @@
-package com.abn.amro.recipes.entity.enums;
+package com.abn.amro.recipes.model.enums;
 
 /**
  * The enum Ingredient unit.
  */
-public enum IngredientUnit {
+public enum MeasurementUnit {
     /**
      * Milligram ingredient unit.
      */
