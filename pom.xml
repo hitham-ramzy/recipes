@@ -49,6 +49,12 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!--H2 for local environment-->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
+
         <!--SWAGGER-UI-->
         <dependency>
             <groupId>io.springfox</groupId>
