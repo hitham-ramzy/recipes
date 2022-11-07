@@ -4,9 +4,15 @@ public enum ErrorConstant {
 
     NAME_ALREADY_EXIST("Name Already Exist"),
 
-    WRONG_RECIPE_TYPE_ID("Wrong recipe type Id"),
+    RECIPE_TYPE_NOT_EXIST("Recipe Type is not exist"),
 
-    WRONG_INGREDIENT_ID("Wrong Ingredient Id");
+    INGREDIENT_NOT_EXIST("Ingredient is not exist"),
+
+    INGREDIENT_NAME_NOT_CHANGED("Ingredient Name not changed"),
+
+    INGREDIENT_ALREADY_USED("Ingredient already used"),
+
+    GENERAL_ERROR("General Error");
 
     private String message;
 
@@ -14,5 +20,7 @@ public enum ErrorConstant {
         this.message = message;
     }
 
-
+    public String getMessage() {
+        return message;
+    }
 }

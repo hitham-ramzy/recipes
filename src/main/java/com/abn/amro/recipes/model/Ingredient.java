@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  * The type Ingredient and its unit used.
@@ -16,13 +18,12 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "ingredient")
 public class Ingredient {
-
-//    TODO :: add seed data
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true)
+    @NotBlank
+    @Size(min = 1, max = 100)
     private String name;
 }

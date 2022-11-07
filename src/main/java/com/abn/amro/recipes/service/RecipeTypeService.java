@@ -30,7 +30,7 @@ public class RecipeTypeService {
         return recipeTypeRepository.findAll();
     }
 
-    private void validate(RecipeType recipeType) {
+    private void validate(RecipeType recipeType) { // TODO :: case sensitive?
         RecipeType savedRecipeType = recipeTypeRepository.findOneByName(recipeType.getName());
         if (savedRecipeType != null) {
             generateError(NAME_ALREADY_EXIST);

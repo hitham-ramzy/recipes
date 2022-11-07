@@ -4,6 +4,8 @@ A task of searching for Recipes and its Ingredients
 
 ### The used Entities
 
+[//]: # (TODO :: add class diagram)
+
 - The Recipe Entity : A model for the Recipe:
 
     - name
@@ -36,7 +38,8 @@ A task of searching for Recipes and its Ingredients
 - Mysql Database
 - Docker
 - Liquibase
-- Junit
+- Junit for Unit Test
+- Spring Integration Test
 
 ### How to start the app
 
@@ -48,15 +51,15 @@ All you need is:
 
 2- run docker-compose command
 
-`docker-compose up`
+`docker-compose up -d`
 
 then open the Swagger documentation page
 
 localhost:8080/
 
-You can track the application logs by appending the detached flag (`-d`) to the command
+You can track the application logs by removing the detached flag (`-d`) to the command
 
-`docker-compose up -d`
+`docker-compose up`
 
 To stop the container all you need it running
 
@@ -67,4 +70,6 @@ To stop the container all you need it running
 - It could take some time on running the application for the first time, as the docker will need to download the java
   image
 - The application use docker volume, so don't care about losing your data on stopping the containers
+- If you need to clear up the database and start from beginning with the seed data use `docker-compose down -v`
+- To run the Test cases, just use `./mvnw integration-test`
 

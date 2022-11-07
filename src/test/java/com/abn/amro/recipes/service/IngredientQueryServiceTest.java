@@ -2,6 +2,7 @@ package com.abn.amro.recipes.service;
 
 import com.abn.amro.recipes.model.Ingredient;
 import static com.abn.amro.recipes.utils.TestUtils.buildRandomIngredientDTO;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import static org.mockito.ArgumentMatchers.any;
@@ -22,7 +23,7 @@ class IngredientQueryServiceTest {
 
     @Test
     void save_IngredientDTO() {
-        ingredientQueryService.save(buildRandomIngredientDTO());
+        ingredientQueryService.save(buildRandomIngredientDTO(RandomStringUtils.randomAlphabetic(20)));
         verify(ingredientService, only()).save(any(Ingredient.class));
     }
 

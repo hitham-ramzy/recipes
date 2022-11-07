@@ -41,7 +41,7 @@ class RecipeTypeServiceTest {
         when(recipeTypeRepository.findOneByName(eq(recipeType.getName()))).thenReturn(buildRandomRecipeType());
         assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(() -> recipeTypeService.save(recipeType))
-                .withMessage(NAME_ALREADY_EXIST.name());
+                .withMessage(NAME_ALREADY_EXIST.getMessage());
     }
 
     @Test

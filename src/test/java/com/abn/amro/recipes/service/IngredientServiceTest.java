@@ -48,7 +48,7 @@ class IngredientServiceTest {
         when(ingredientRepository.findOneByName(eq(ingredient.getName()))).thenReturn(buildRandomIngredient());
         assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(() -> ingredientService.save(ingredient))
-                .withMessage(NAME_ALREADY_EXIST.name());
+                .withMessage(NAME_ALREADY_EXIST.getMessage());
     }
 
     @Test
