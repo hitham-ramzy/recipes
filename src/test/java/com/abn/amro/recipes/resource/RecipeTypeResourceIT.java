@@ -1,15 +1,15 @@
 package com.abn.amro.recipes.resource;
 
-import com.abn.amro.recipes.model.Ingredient;
-import com.abn.amro.recipes.model.dto.IngredientDTO;
-import com.abn.amro.recipes.repository.IngredientRepository;
-import static com.abn.amro.recipes.utils.ErrorConstant.INGREDIENT_NAME_NOT_CHANGED;
-import static com.abn.amro.recipes.utils.ErrorConstant.INGREDIENT_NOT_EXIST;
+import com.abn.amro.recipes.model.RecipeType;
+import com.abn.amro.recipes.model.dto.RecipeTypeDTO;
+import com.abn.amro.recipes.repository.RecipeTypeRepository;
 import static com.abn.amro.recipes.utils.ErrorConstant.NAME_ALREADY_EXIST;
+import static com.abn.amro.recipes.utils.ErrorConstant.RECIPE_TYPE_NAME_NOT_CHANGED;
+import static com.abn.amro.recipes.utils.ErrorConstant.RECIPE_TYPE_NOT_EXIST;
 import static com.abn.amro.recipes.utils.ErrorUtils.NAME_FIELD_LENGTH;
-import static com.abn.amro.recipes.utils.TestUtils.INGREDIENTS_SEED_DATA_SIZE;
+import static com.abn.amro.recipes.utils.TestUtils.RECIPE_TYPE_SEED_DATA_SIZE;
 import static com.abn.amro.recipes.utils.TestUtils.asJsonString;
-import static com.abn.amro.recipes.utils.TestUtils.buildRandomIngredientDTO;
+import static com.abn.amro.recipes.utils.TestUtils.buildRandomRecipeTypeDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.RandomStringUtils;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,50 +35,49 @@ import java.util.List;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class IngredientResourceIT {
+class RecipeTypeResourceIT {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    IngredientRepository ingredientRepository;
-
+    private RecipeTypeRepository recipeTypeRepository;
 
     @Test
     @Order(1)
-    public void getAllIngredients() throws Exception {
+    public void getAllRecipeTypes() throws Exception {
         MvcResult mvcResult = mockMvc.perform(
-                        get("/api/ingredient")
+                        get("/api/recipe-type")
                                 .contentType("application/json")
                 )
                 .andExpect(status().isOk()).andReturn();
         String response = mvcResult.getResponse().getContentAsString();
-        List ingredients = new ObjectMapper().readValue(response, List.class);
-        assertThat(ingredients.size()).isEqualTo(INGREDIENTS_SEED_DATA_SIZE);
+        List recipeTypes = new ObjectMapper().readValue(response, List.class);
+        assertThat(recipeTypes.size()).isEqualTo(RECIPE_TYPE_SEED_DATA_SIZE);
     }
 
 
     @Test
     @Order(2)
-    public void getIngredientById() throws Exception {
+    public void getRecipeTypeById() throws Exception {
         Long id = 1L;
         MvcResult mvcResult = mockMvc.perform(
-                        get("/api/ingredient/{id}", id)
+                        get("/api/recipe-type/{id}", id)
                                 .contentType("application/json")
                 )
                 .andExpect(status().isOk()).andReturn();
         String response = mvcResult.getResponse().getContentAsString();
-        Ingredient ingredient = new ObjectMapper().readValue(response, Ingredient.class);
-        Ingredient savedIngredient = ingredientRepository.getById(id);
-        assertThat(savedIngredient.getName()).isEqualTo(ingredient.getName());
+        RecipeType recipeType = new ObjectMapper().readValue(response, RecipeType.class);
+        RecipeType savedRecipeType = recipeTypeRepository.getById(id);
+        assertThat(savedRecipeType.getName()).isEqualTo(recipeType.getName());
     }
 
     @Test
     @Order(3)
-    public void getNotExitsIngredient() throws Exception {
+    public void getNotExitsRecipeType() throws Exception {
         Long id = -1L;
         MvcResult mvcResult = mockMvc.perform(
-                        get("/api/ingredient/{id}", id)
+                        get("/api/recipe-type/{id}", id)
                                 .contentType("application/json")
                 )
                 .andExpect(status().isOk()).andReturn();
@@ -88,27 +87,27 @@ class IngredientResourceIT {
 
     @Test
     @Order(4)
-    public void saveIngredient() throws Exception {
-        IngredientDTO ingredientDTO = buildRandomIngredientDTO(RandomStringUtils.randomAlphabetic(10));
+    public void saveRecipeType() throws Exception {
+        RecipeTypeDTO recipeTypeDTO = buildRandomRecipeTypeDTO(RandomStringUtils.randomAlphabetic(10));
         MvcResult mvcResult = mockMvc.perform(
-                        post("/api/ingredient")
-                                .content(asJsonString(ingredientDTO))
+                        post("/api/recipe-type")
+                                .content(asJsonString(recipeTypeDTO))
                                 .contentType("application/json")
                 )
                 .andExpect(status().isOk()).andReturn();
         String response = mvcResult.getResponse().getContentAsString();
-        Ingredient ingredient = new ObjectMapper().readValue(response, Ingredient.class);
-        Ingredient savedIngredient = ingredientRepository.getById(ingredient.getId());
-        assertThat(savedIngredient.getName()).isEqualTo(ingredientDTO.getName());
+        RecipeType recipeType = new ObjectMapper().readValue(response, RecipeType.class);
+        RecipeType savedRecipeType = recipeTypeRepository.getById(recipeType.getId());
+        assertThat(savedRecipeType.getName()).isEqualTo(recipeTypeDTO.getName());
     }
 
     @Test
     @Order(5)
-    public void saveTooLongIngredientName() throws Exception {
-        IngredientDTO ingredientDTO = buildRandomIngredientDTO(RandomStringUtils.randomAlphabetic(1000));
+    public void saveTooLongRecipeTypeName() throws Exception {
+        RecipeTypeDTO recipeTypeDTO = buildRandomRecipeTypeDTO(RandomStringUtils.randomAlphabetic(1000));
         MvcResult mvcResult = mockMvc.perform(
-                        post("/api/ingredient")
-                                .content(asJsonString(ingredientDTO))
+                        post("/api/recipe-type")
+                                .content(asJsonString(recipeTypeDTO))
                                 .contentType("application/json")
                 )
                 .andExpect(status().isBadRequest()).andReturn();
@@ -118,12 +117,12 @@ class IngredientResourceIT {
 
     @Test
     @Order(6)
-    public void saveRepeatedIngredientName() throws Exception {
-        Ingredient existIngredient = ingredientRepository.getById(1L);
-        IngredientDTO ingredientDTO = buildRandomIngredientDTO(existIngredient.getName());
+    public void saveRepeatedRecipeTypeName() throws Exception {
+        RecipeType existRecipeType = recipeTypeRepository.getById(1L);
+        RecipeTypeDTO recipeTypeDTO = buildRandomRecipeTypeDTO(existRecipeType.getName());
         MvcResult mvcResult = mockMvc.perform(
-                        post("/api/ingredient")
-                                .content(asJsonString(ingredientDTO))
+                        post("/api/recipe-type")
+                                .content(asJsonString(recipeTypeDTO))
                                 .contentType("application/json")
                 )
                 .andExpect(status().isBadRequest()).andReturn();
@@ -133,28 +132,28 @@ class IngredientResourceIT {
 
     @Test
     @Order(7)
-    public void updateIngredientName() throws Exception {
-        IngredientDTO ingredientDTO = buildRandomIngredientDTO(RandomStringUtils.randomAlphabetic(20));
+    public void updateRecipeTypeName() throws Exception {
+        RecipeTypeDTO recipeTypeDTO = buildRandomRecipeTypeDTO(RandomStringUtils.randomAlphabetic(20));
         MvcResult mvcResult = mockMvc.perform(
-                        put("/api/ingredient/{id}", 2L)
-                                .content(asJsonString(ingredientDTO))
+                        put("/api/recipe-type/{id}", 2L)
+                                .content(asJsonString(recipeTypeDTO))
                                 .contentType("application/json")
                 )
                 .andExpect(status().isOk()).andReturn();
         String response = mvcResult.getResponse().getContentAsString();
-        Ingredient ingredient = new ObjectMapper().readValue(response, Ingredient.class);
-        Ingredient savedIngredient = ingredientRepository.getById(ingredient.getId());
-        assertThat(savedIngredient.getName()).isEqualTo(ingredientDTO.getName());
+        RecipeType recipeType = new ObjectMapper().readValue(response, RecipeType.class);
+        RecipeType savedRecipeType = recipeTypeRepository.getById(recipeType.getId());
+        assertThat(savedRecipeType.getName()).isEqualTo(recipeTypeDTO.getName());
     }
 
     @Test
     @Order(8)
-    public void updateIngredientWithExistName() throws Exception {
-        Ingredient existIngredient = ingredientRepository.getById(1L);
-        IngredientDTO ingredientDTO = buildRandomIngredientDTO(existIngredient.getName());
+    public void updateRecipeTypeWithExistName() throws Exception {
+        RecipeType existRecipeType = recipeTypeRepository.getById(1L);
+        RecipeTypeDTO recipeTypeDTO = buildRandomRecipeTypeDTO(existRecipeType.getName());
         MvcResult mvcResult = mockMvc.perform(
-                        put("/api/ingredient/{id}", 2L)
-                                .content(asJsonString(ingredientDTO))
+                        put("/api/recipe-type/{id}", 2L)
+                                .content(asJsonString(recipeTypeDTO))
                                 .contentType("application/json")
                 )
                 .andExpect(status().isBadRequest()).andReturn();
@@ -164,11 +163,11 @@ class IngredientResourceIT {
 
     @Test
     @Order(9)
-    public void updateIngredientWithTooLongName() throws Exception {
-        IngredientDTO ingredientDTO = buildRandomIngredientDTO(RandomStringUtils.randomAlphabetic(1000));
+    public void updateRecipeTypeWithTooLongName() throws Exception {
+        RecipeTypeDTO recipeTypeDTO = buildRandomRecipeTypeDTO(RandomStringUtils.randomAlphabetic(1000));
         MvcResult mvcResult = mockMvc.perform(
-                        put("/api/ingredient/{id}", 2L)
-                                .content(asJsonString(ingredientDTO))
+                        put("/api/recipe-type/{id}", 2L)
+                                .content(asJsonString(recipeTypeDTO))
                                 .contentType("application/json")
                 )
                 .andExpect(status().isBadRequest()).andReturn();
@@ -178,54 +177,53 @@ class IngredientResourceIT {
 
     @Test
     @Order(10)
-    public void updateIngredientWithSameName() throws Exception {
-        Ingredient existIngredient = ingredientRepository.getById(1L);
+    public void updateRecipeTypeWithSameName() throws Exception {
+        RecipeType existRecipeType = recipeTypeRepository.getById(1L);
         MvcResult mvcResult = mockMvc.perform(
-                        put("/api/ingredient/{id}", existIngredient.getId())
-                                .content(asJsonString(buildRandomIngredientDTO(existIngredient.getName())))
+                        put("/api/recipe-type/{id}", existRecipeType.getId())
+                                .content(asJsonString(buildRandomRecipeTypeDTO(existRecipeType.getName())))
                                 .contentType("application/json")
                 )
                 .andExpect(status().isBadRequest()).andReturn();
         String result = mvcResult.getResponse().getContentAsString();
-        assertThat(result).isEqualTo(INGREDIENT_NAME_NOT_CHANGED.getMessage());
+        assertThat(result).isEqualTo(RECIPE_TYPE_NAME_NOT_CHANGED.getMessage());
     }
 
     @Test
     @Order(11)
-    public void updateNotExistIngredient() throws Exception {
+    public void updateNotExistRecipeType() throws Exception {
         MvcResult mvcResult = mockMvc.perform(
-                        put("/api/ingredient/{id}", -1L)
-                                .content(asJsonString(buildRandomIngredientDTO(RandomStringUtils.randomAlphabetic(10))))
+                        put("/api/recipe-type/{id}", -1L)
+                                .content(asJsonString(buildRandomRecipeTypeDTO(RandomStringUtils.randomAlphabetic(10))))
                                 .contentType("application/json")
                 )
                 .andExpect(status().isBadRequest()).andReturn();
         String result = mvcResult.getResponse().getContentAsString();
-        assertThat(result).isEqualTo(INGREDIENT_NOT_EXIST.getMessage());
+        assertThat(result).isEqualTo(RECIPE_TYPE_NOT_EXIST.getMessage());
     }
 
     @Test
     @Order(12)
-    public void deleteIngredient() throws Exception {
-        Ingredient existIngredient = ingredientRepository.getById(1L);
+    public void deleteRecipeType() throws Exception {
+        RecipeType existRecipeType = recipeTypeRepository.getById(1L);
         mockMvc.perform(
-                        delete("/api/ingredient/{id}", existIngredient.getId())
+                        delete("/api/recipe-type/{id}", existRecipeType.getId())
                                 .contentType("application/json")
                 )
                 .andExpect(status().isOk()).andReturn();
-        assertThat(ingredientRepository.findById(1L).orElse(null)).isNull();
+        assertThat(recipeTypeRepository.findById(1L).orElse(null)).isNull();
     }
 
     @Test
     @Order(13)
-    public void deleteNotExistIngredient() throws Exception {
-        Ingredient existIngredient = ingredientRepository.getById(-1L);
+    public void deleteNotExistRecipeType() throws Exception {
+        RecipeType existRecipeType = recipeTypeRepository.getById(-1L);
         MvcResult mvcResult = mockMvc.perform(
-                        delete("/api/ingredient/{id}", existIngredient.getId())
+                        delete("/api/recipe-type/{id}", existRecipeType.getId())
                                 .contentType("application/json")
                 )
                 .andExpect(status().isBadRequest()).andReturn();
         String result = mvcResult.getResponse().getContentAsString();
-        assertThat(result).isEqualTo(INGREDIENT_NOT_EXIST.getMessage());
+        assertThat(result).isEqualTo(RECIPE_TYPE_NOT_EXIST.getMessage());
     }
-
 }

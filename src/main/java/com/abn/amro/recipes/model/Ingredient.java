@@ -1,5 +1,7 @@
 package com.abn.amro.recipes.model;
 
+import static com.abn.amro.recipes.utils.ErrorUtils.NAME_FIELD_LENGTH;
+import static com.abn.amro.recipes.utils.ErrorUtils.NAME_FIELD_NOT_NULL;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -23,7 +25,7 @@ public class Ingredient {
     private Long id;
 
     @Column(unique = true)
-    @NotBlank
-    @Size(min = 1, max = 100)
+    @NotBlank(message = NAME_FIELD_NOT_NULL)
+    @Size(min = 1, max = 100, message = NAME_FIELD_LENGTH)
     private String name;
 }

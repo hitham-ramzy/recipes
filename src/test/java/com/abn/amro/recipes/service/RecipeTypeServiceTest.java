@@ -29,16 +29,16 @@ class RecipeTypeServiceTest {
     @Test
     void save_validRecipeType_shouldCallRepositoryTwice() {
         RecipeType recipeType = buildRandomRecipeType();
-        when(recipeTypeRepository.findOneByName(eq(recipeType.getName()))).thenReturn(null);
+        when(recipeTypeRepository.findOneByNameIgnoreCase(eq(recipeType.getName()))).thenReturn(null);
         recipeTypeService.save(recipeType);
-        verify(recipeTypeRepository, times(1)).findOneByName(eq(recipeType.getName()));
+        verify(recipeTypeRepository, times(1)).findOneByNameIgnoreCase(eq(recipeType.getName()));
         verify(recipeTypeRepository, times(1)).save(recipeType);
     }
 
     @Test
     void save_invalidRecipeType_shouldThrowException() {
         RecipeType recipeType = buildRandomRecipeType();
-        when(recipeTypeRepository.findOneByName(eq(recipeType.getName()))).thenReturn(buildRandomRecipeType());
+        when(recipeTypeRepository.findOneByNameIgnoreCase(eq(recipeType.getName()))).thenReturn(buildRandomRecipeType());
         assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(() -> recipeTypeService.save(recipeType))
                 .withMessage(NAME_ALREADY_EXIST.getMessage());

@@ -83,7 +83,6 @@ public class RecipeQueryService {
 
         RecipeType recipeType = recipeTypeService.findById(recipeDTO.getRecipeTypeId());
         if (recipeType == null) {
-            // TODO :: enhance the way to throw exception and display more handy message by catching it
             generateError(RECIPE_TYPE_NOT_EXIST);
         }
         recipe.setRecipeType(recipeType);
@@ -94,10 +93,8 @@ public class RecipeQueryService {
 
         List<Ingredient> ingredients = ingredientService.findByIds(ingredientIds);
         if (ingredients.size() != recipeDTO.getRecipeIngredientDTOS().size()) {
-            // TODO :: enhance the way to throw exception and display more handy message by catching it
             generateError(INGREDIENT_NOT_EXIST);
         }
-
 
         recipe.setRecipeIngredients(
                 ingredients.stream().map(ingredient ->

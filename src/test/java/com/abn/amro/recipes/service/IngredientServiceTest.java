@@ -34,18 +34,18 @@ class IngredientServiceTest {
     @Test
     public void save_validIngredient_shouldCallRepositoryTwice() {
         Ingredient ingredient = buildRandomIngredient();
-        when(ingredientRepository.findOneByName(eq(ingredient.getName()))).thenReturn(null);
+        when(ingredientRepository.findOneByNameIgnoreCase(eq(ingredient.getName()))).thenReturn(null);
         when(ingredientRepository.save(any(Ingredient.class))).thenReturn(ingredient);
         Ingredient savedIngredient = ingredientService.save(ingredient);
         assertThat(savedIngredient.getName()).isEqualTo(ingredient.getName());
-        verify(ingredientRepository, times(1)).findOneByName(anyString());
+        verify(ingredientRepository, times(1)).findOneByNameIgnoreCase(anyString());
         verify(ingredientRepository, times(1)).save(any(Ingredient.class));
     }
 
     @Test
     public void save_repeatedIngredient_shouldThrowException() {
         Ingredient ingredient = buildRandomIngredient();
-        when(ingredientRepository.findOneByName(eq(ingredient.getName()))).thenReturn(buildRandomIngredient());
+        when(ingredientRepository.findOneByNameIgnoreCase(eq(ingredient.getName()))).thenReturn(buildRandomIngredient());
         assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(() -> ingredientService.save(ingredient))
                 .withMessage(NAME_ALREADY_EXIST.getMessage());

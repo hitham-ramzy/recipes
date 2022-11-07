@@ -27,4 +27,8 @@ public class RecipeService {
     public List<Recipe> findAll(Specification<Recipe> specification) {
         return recipeRepository.findAll(specification);
     }
+
+    public Boolean isRecipeTypeUsed(Long id) {
+        return recipeRepository.existsByRecipeTypeId(id);
+    }
 }

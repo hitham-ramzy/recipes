@@ -1,6 +1,5 @@
 package com.abn.amro.recipes.service;
 
-import com.abn.amro.recipes.model.RecipeIngredient;
 import com.abn.amro.recipes.repository.RecipeIngredientRepository;
 import org.springframework.stereotype.Service;
 

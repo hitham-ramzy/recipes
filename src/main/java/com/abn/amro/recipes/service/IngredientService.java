@@ -54,8 +54,7 @@ public class IngredientService {
     }
 
     public void delete(Long id) {
-        Boolean isIngredientExist = ingredientRepository.existsById(id);
-        if (!isIngredientExist) {
+        if (!ingredientRepository.existsById(id)) {
             generateError(INGREDIENT_NOT_EXIST);
         }
 
@@ -68,7 +67,7 @@ public class IngredientService {
 
 
     private void validateName(String ingredientName) {
-        Ingredient savedIngredient = ingredientRepository.findOneByName(ingredientName);
+        Ingredient savedIngredient = ingredientRepository.findOneByNameIgnoreCase(ingredientName);
         if (savedIngredient != null) {
             generateError(NAME_ALREADY_EXIST);
         }

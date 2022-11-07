@@ -5,6 +5,7 @@ import com.abn.amro.recipes.model.RecipeType;
 import com.abn.amro.recipes.model.dto.IngredientDTO;
 import com.abn.amro.recipes.model.dto.RecipeDTO;
 import com.abn.amro.recipes.model.dto.RecipeIngredientDTO;
+import com.abn.amro.recipes.model.dto.RecipeTypeDTO;
 import com.abn.amro.recipes.model.enums.MeasurementUnit;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -15,6 +16,7 @@ import java.util.List;
 public class TestUtils {
 
     public static Integer INGREDIENTS_SEED_DATA_SIZE = 5;
+    public static Integer RECIPE_TYPE_SEED_DATA_SIZE = 2;
 
     public static String asJsonString(final Object obj) {
         try {
@@ -61,6 +63,12 @@ public class TestUtils {
         recipeIngredientDTO.setUnit(buildRandomMeasurementUnit());
         recipeIngredientDTO.setIngredientAmount(RandomUtils.nextDouble());
         return recipeIngredientDTO;
+    }
+
+    public static RecipeTypeDTO buildRandomRecipeTypeDTO(String name) {
+        RecipeTypeDTO recipeTypeDTO = new RecipeTypeDTO();
+        recipeTypeDTO.setName(name);
+        return recipeTypeDTO;
     }
 
     public static MeasurementUnit buildRandomMeasurementUnit() {

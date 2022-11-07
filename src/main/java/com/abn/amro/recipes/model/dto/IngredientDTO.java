@@ -9,6 +9,7 @@ import javax.validation.constraints.Size;
 
 @Data
 public class IngredientDTO {
+
     @NotNull(message = NAME_FIELD_NOT_NULL)
     @Size(min = 1, max = 100, message = NAME_FIELD_LENGTH)
     private String name;
