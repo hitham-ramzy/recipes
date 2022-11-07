@@ -1,7 +1,7 @@
 package com.abn.amro.recipes.model;
 
-import static com.abn.amro.recipes.utils.ErrorUtils.NAME_FIELD_LENGTH;
-import static com.abn.amro.recipes.utils.ErrorUtils.NAME_FIELD_NOT_NULL;
+import static com.abn.amro.recipes.utils.ErrorUtils.NAME_LENGTH_MESSAGE;
+import static com.abn.amro.recipes.utils.ErrorUtils.NAME_NOT_NULL_MESSAGE;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -27,8 +27,8 @@ public class RecipeType {
     private Long id;
 
     @Column(unique = true)
-    @NotBlank(message = NAME_FIELD_NOT_NULL)
-    @Size(min = 1, max = 100, message = NAME_FIELD_LENGTH)
+    @NotBlank(message = NAME_NOT_NULL_MESSAGE)
+    @Size(min = 1, max = 100, message = NAME_LENGTH_MESSAGE)
     private String name;
 
 }

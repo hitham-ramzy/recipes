@@ -45,7 +45,7 @@ public class RecipeQueryService {
 
 
     public Recipe save(RecipeDTO recipeDTO) {
-        Recipe recipe = mapFromDTO(recipeDTO);
+        Recipe recipe = mapRecipeDtoToRecipe(recipeDTO);
         return recipeService.save(recipe);
     }
 
@@ -78,7 +78,7 @@ public class RecipeQueryService {
         return specification;
     }
 
-    private Recipe mapFromDTO(RecipeDTO recipeDTO) {
+    private Recipe mapRecipeDtoToRecipe(RecipeDTO recipeDTO) {
         Recipe recipe = RecipeMapper.INSTANCE.mapDtoToRecipe(recipeDTO);
 
         RecipeType recipeType = recipeTypeService.findById(recipeDTO.getRecipeTypeId());

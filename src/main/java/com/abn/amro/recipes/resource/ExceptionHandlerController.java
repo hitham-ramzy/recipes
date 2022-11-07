@@ -12,7 +12,7 @@ public class ExceptionHandlerController {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRuntimeException(RuntimeException e) {
-        e.printStackTrace();
+        e.printStackTrace(); // TODO :: remove
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 

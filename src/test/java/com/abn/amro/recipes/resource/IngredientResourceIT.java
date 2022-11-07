@@ -6,7 +6,7 @@ import com.abn.amro.recipes.repository.IngredientRepository;
 import static com.abn.amro.recipes.utils.ErrorConstant.INGREDIENT_NAME_NOT_CHANGED;
 import static com.abn.amro.recipes.utils.ErrorConstant.INGREDIENT_NOT_EXIST;
 import static com.abn.amro.recipes.utils.ErrorConstant.NAME_ALREADY_EXIST;
-import static com.abn.amro.recipes.utils.ErrorUtils.NAME_FIELD_LENGTH;
+import static com.abn.amro.recipes.utils.ErrorUtils.NAME_LENGTH_MESSAGE;
 import static com.abn.amro.recipes.utils.TestUtils.INGREDIENTS_SEED_DATA_SIZE;
 import static com.abn.amro.recipes.utils.TestUtils.asJsonString;
 import static com.abn.amro.recipes.utils.TestUtils.buildRandomIngredientDTO;
@@ -113,7 +113,7 @@ class IngredientResourceIT {
                 )
                 .andExpect(status().isBadRequest()).andReturn();
         String result = mvcResult.getResponse().getContentAsString();
-        assertThat(result).isEqualTo(NAME_FIELD_LENGTH);
+        assertThat(result).isEqualTo(NAME_LENGTH_MESSAGE);
     }
 
     @Test
@@ -173,7 +173,7 @@ class IngredientResourceIT {
                 )
                 .andExpect(status().isBadRequest()).andReturn();
         String result = mvcResult.getResponse().getContentAsString();
-        assertThat(result).isEqualTo(NAME_FIELD_LENGTH);
+        assertThat(result).isEqualTo(NAME_LENGTH_MESSAGE);
     }
 
     @Test

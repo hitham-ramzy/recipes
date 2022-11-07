@@ -11,7 +11,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 
-import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class TestUtils {
 
@@ -50,16 +52,22 @@ public class TestUtils {
     public static RecipeDTO buildRandomRecipeDTO() {
         RecipeDTO recipeDTO = new RecipeDTO();
         recipeDTO.setName(RandomStringUtils.randomAlphabetic(10));
-        recipeDTO.setRecipeTypeId(1L);
+        recipeDTO.setRecipeTypeId(RandomUtils.nextLong(1, 2));
         recipeDTO.setInstructions(RandomStringUtils.randomAlphabetic(100));
         recipeDTO.setNumberOfServings(RandomUtils.nextInt());
-        recipeDTO.setRecipeIngredientDTOS(List.of(buildRandomRecipeIngredientDTO(), buildRandomRecipeIngredientDTO(), buildRandomRecipeIngredientDTO()));
+        recipeDTO.setRecipeIngredientDTOS(buildRandomListOfRecipeIngredientDTO());
         return recipeDTO;
     }
 
-    public static RecipeIngredientDTO buildRandomRecipeIngredientDTO() {
+    private static Set<RecipeIngredientDTO> buildRandomListOfRecipeIngredientDTO() {
+        return IntStream.rangeClosed(1, RandomUtils.nextInt(2, 5))
+                .mapToObj(s -> buildRandomRecipeIngredientDTO())
+                .collect(Collectors.toSet());
+    }
+
+    private static RecipeIngredientDTO buildRandomRecipeIngredientDTO() {
         RecipeIngredientDTO recipeIngredientDTO = new RecipeIngredientDTO();
-        recipeIngredientDTO.setIngredientId(1L);
+        recipeIngredientDTO.setIngredientId(RandomUtils.nextLong(1, 5));
         recipeIngredientDTO.setUnit(buildRandomMeasurementUnit());
         recipeIngredientDTO.setIngredientAmount(RandomUtils.nextDouble());
         return recipeIngredientDTO;

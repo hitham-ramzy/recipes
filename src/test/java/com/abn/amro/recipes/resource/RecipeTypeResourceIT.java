@@ -6,7 +6,7 @@ import com.abn.amro.recipes.repository.RecipeTypeRepository;
 import static com.abn.amro.recipes.utils.ErrorConstant.NAME_ALREADY_EXIST;
 import static com.abn.amro.recipes.utils.ErrorConstant.RECIPE_TYPE_NAME_NOT_CHANGED;
 import static com.abn.amro.recipes.utils.ErrorConstant.RECIPE_TYPE_NOT_EXIST;
-import static com.abn.amro.recipes.utils.ErrorUtils.NAME_FIELD_LENGTH;
+import static com.abn.amro.recipes.utils.ErrorUtils.NAME_LENGTH_MESSAGE;
 import static com.abn.amro.recipes.utils.TestUtils.RECIPE_TYPE_SEED_DATA_SIZE;
 import static com.abn.amro.recipes.utils.TestUtils.asJsonString;
 import static com.abn.amro.recipes.utils.TestUtils.buildRandomRecipeTypeDTO;
@@ -112,7 +112,7 @@ class RecipeTypeResourceIT {
                 )
                 .andExpect(status().isBadRequest()).andReturn();
         String result = mvcResult.getResponse().getContentAsString();
-        assertThat(result).isEqualTo(NAME_FIELD_LENGTH);
+        assertThat(result).isEqualTo(NAME_LENGTH_MESSAGE);
     }
 
     @Test
@@ -172,7 +172,7 @@ class RecipeTypeResourceIT {
                 )
                 .andExpect(status().isBadRequest()).andReturn();
         String result = mvcResult.getResponse().getContentAsString();
-        assertThat(result).isEqualTo(NAME_FIELD_LENGTH);
+        assertThat(result).isEqualTo(NAME_LENGTH_MESSAGE);
     }
 
     @Test
