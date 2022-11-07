@@ -8,6 +8,9 @@ import com.abn.amro.recipes.model.RecipeType;
 import com.abn.amro.recipes.model.criteria.RecipeCriteria;
 import com.abn.amro.recipes.model.dto.RecipeDTO;
 import com.abn.amro.recipes.model.dto.RecipeIngredientDTO;
+import static com.abn.amro.recipes.utils.ErrorConstant.WRONG_INGREDIENT_ID;
+import static com.abn.amro.recipes.utils.ErrorConstant.WRONG_RECIPE_TYPE_ID;
+import static com.abn.amro.recipes.utils.ErrorUtils.generateError;
 import static com.abn.amro.recipes.utils.SpecificationUtils.buildDeepReferenceSpecification;
 import static com.abn.amro.recipes.utils.SpecificationUtils.buildReferenceSpecification;
 import static com.abn.amro.recipes.utils.SpecificationUtils.buildSpecification;
@@ -81,7 +84,7 @@ public class RecipeQueryService {
         RecipeType recipeType = recipeTypeService.findById(recipeDTO.getRecipeTypeId());
         if (recipeType == null) {
             // TODO :: enhance the way to throw exception and display more handy message by catching it
-            throw new RuntimeException("Wrong recipe type Id.");
+            generateError(WRONG_RECIPE_TYPE_ID);
         }
         recipe.setRecipeType(recipeType);
 
@@ -92,7 +95,7 @@ public class RecipeQueryService {
         List<Ingredient> ingredients = ingredientService.findByIds(ingredientIds);
         if (ingredients.size() != recipeDTO.getRecipeIngredientDTOS().size()) {
             // TODO :: enhance the way to throw exception and display more handy message by catching it
-            throw new RuntimeException("Wrong Ingredient Id added");
+            generateError(WRONG_INGREDIENT_ID);
         }
 
 

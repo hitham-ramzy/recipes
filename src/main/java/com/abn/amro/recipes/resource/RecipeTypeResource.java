@@ -32,7 +32,7 @@ public class RecipeTypeResource {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RecipeType> findById(@PathVariable Long id) {
+    public ResponseEntity<RecipeType> findById(@PathVariable Long id) { // TODO :: check nullability
         return ResponseEntity.ok(recipeTypeService.findById(id));
     }
 

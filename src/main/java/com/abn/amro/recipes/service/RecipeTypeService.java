@@ -1,8 +1,9 @@
 package com.abn.amro.recipes.service;
 
-import com.abn.amro.recipes.model.Ingredient;
 import com.abn.amro.recipes.model.RecipeType;
 import com.abn.amro.recipes.repository.RecipeTypeRepository;
+import static com.abn.amro.recipes.utils.ErrorConstant.NAME_ALREADY_EXIST;
+import static com.abn.amro.recipes.utils.ErrorUtils.generateError;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class RecipeTypeService {
     private void validate(RecipeType recipeType) {
         RecipeType savedRecipeType = recipeTypeRepository.findOneByName(recipeType.getName());
         if (savedRecipeType != null) {
-            throw new RuntimeException("Name Already Exist");
+            generateError(NAME_ALREADY_EXIST);
         }
     }
 }
