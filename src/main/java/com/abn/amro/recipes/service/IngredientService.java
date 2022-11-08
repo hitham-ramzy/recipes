@@ -7,7 +7,8 @@ import static com.abn.amro.recipes.utils.ErrorEnum.INGREDIENT_ALREADY_USED;
 import static com.abn.amro.recipes.utils.ErrorEnum.INGREDIENT_NAME_NOT_CHANGED;
 import static com.abn.amro.recipes.utils.ErrorEnum.INGREDIENT_NOT_EXIST;
 import static com.abn.amro.recipes.utils.ErrorEnum.NAME_ALREADY_EXIST;
-import static com.abn.amro.recipes.utils.ErrorUtils.generateError;
+import static com.abn.amro.recipes.utils.ErrorUtils.generateInvalidInputError;
+import static com.abn.amro.recipes.utils.ErrorUtils.generateNotFoundError;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,9 +45,9 @@ public class IngredientService {
     public Ingredient update(Long id, IngredientDTO ingredientDTO) {
         Ingredient savedIngredient = ingredientRepository.findById(id).orElse(null);
         if (savedIngredient == null) {
-            generateError(INGREDIENT_NOT_EXIST);
+            generateNotFoundError();
         } else if (savedIngredient.getName().equals(ingredientDTO.getName())) {
-            generateError(INGREDIENT_NAME_NOT_CHANGED);
+            generateInvalidInputError(INGREDIENT_NAME_NOT_CHANGED);
         }
         validateName(ingredientDTO.getName());
         savedIngredient.setName(ingredientDTO.getName());
@@ -55,12 +56,12 @@ public class IngredientService {
 
     public void delete(Long id) {
         if (!ingredientRepository.existsById(id)) {
-            generateError(INGREDIENT_NOT_EXIST);
+            generateNotFoundError();
         }
 
         Boolean isIngredientUsed = ingredientService.isIngredientUsed(id);
         if (isIngredientUsed) {
-            generateError(INGREDIENT_ALREADY_USED);
+            generateInvalidInputError(INGREDIENT_ALREADY_USED);
         }
         ingredientRepository.deleteById(id);
     }
@@ -69,7 +70,7 @@ public class IngredientService {
     private void validateName(String ingredientName) {
         Ingredient savedIngredient = ingredientRepository.findOneByNameIgnoreCase(ingredientName);
         if (savedIngredient != null) {
-            generateError(NAME_ALREADY_EXIST);
+            generateInvalidInputError(NAME_ALREADY_EXIST);
         }
     }
 }

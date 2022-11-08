@@ -1,15 +1,15 @@
 package com.abn.amro.recipes.model.dto;
 
-import static com.abn.amro.recipes.utils.ErrorUtils.INSTRUCTIONS_LENGTH_MESSAGE;
-import static com.abn.amro.recipes.utils.ErrorUtils.INSTRUCTIONS_NOT_NULL_MESSAGE;
-import static com.abn.amro.recipes.utils.ErrorUtils.NAME_LENGTH_MESSAGE;
-import static com.abn.amro.recipes.utils.ErrorUtils.NAME_NOT_NULL_MESSAGE;
-import static com.abn.amro.recipes.utils.ErrorUtils.NUM_OF_SERVINGS_MAX_MESSAGE;
-import static com.abn.amro.recipes.utils.ErrorUtils.NUM_OF_SERVINGS_MIN_MESSAGE;
-import static com.abn.amro.recipes.utils.ErrorUtils.NUM_OF_SERVINGS_NOT_NULL;
-import static com.abn.amro.recipes.utils.ErrorUtils.RECIPE_INGREDIENTS_NOT_NULL;
-import static com.abn.amro.recipes.utils.ErrorUtils.RECIPE_INGREDIENTS_SIZE;
-import static com.abn.amro.recipes.utils.ErrorUtils.RECIPE_TYPE_ID_NOT_NULL_MESSAGE;
+import static com.abn.amro.recipes.utils.ErrorConstants.INSTRUCTIONS_LENGTH_MESSAGE;
+import static com.abn.amro.recipes.utils.ErrorConstants.INSTRUCTIONS_NOT_NULL_MESSAGE;
+import static com.abn.amro.recipes.utils.ErrorConstants.NAME_LENGTH_MESSAGE;
+import static com.abn.amro.recipes.utils.ErrorConstants.NAME_NOT_NULL_MESSAGE;
+import static com.abn.amro.recipes.utils.ErrorConstants.NUM_OF_SERVINGS_MAX_MESSAGE;
+import static com.abn.amro.recipes.utils.ErrorConstants.NUM_OF_SERVINGS_MIN_MESSAGE;
+import static com.abn.amro.recipes.utils.ErrorConstants.NUM_OF_SERVINGS_NOT_NULL;
+import static com.abn.amro.recipes.utils.ErrorConstants.RECIPE_INGREDIENTS_NOT_NULL;
+import static com.abn.amro.recipes.utils.ErrorConstants.RECIPE_INGREDIENTS_SIZE;
+import static com.abn.amro.recipes.utils.ErrorConstants.RECIPE_TYPE_ID_NOT_NULL_MESSAGE;
 import lombok.Data;
 
 import javax.validation.Valid;

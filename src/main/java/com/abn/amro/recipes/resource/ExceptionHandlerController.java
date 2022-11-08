@@ -1,5 +1,7 @@
 package com.abn.amro.recipes.resource;
 
+import com.abn.amro.recipes.exception.InvalidInputException;
+import com.abn.amro.recipes.exception.NotFoundException;
 import static com.abn.amro.recipes.utils.ErrorEnum.GENERAL_ERROR;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,10 +16,16 @@ public class ExceptionHandlerController {
 
     Logger logger = LoggerFactory.getLogger(ExceptionHandlerController.class);
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<String> handleRuntimeException(RuntimeException e) {
+    @ExceptionHandler(InvalidInputException.class)
+    public ResponseEntity<String> handleInvalidInputException(InvalidInputException e) {
         logger.error(e.getMessage());
         return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<String> handleNotFoundException(NotFoundException e) {
+        logger.error(e.getMessage());
+        return ResponseEntity.notFound().build();
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

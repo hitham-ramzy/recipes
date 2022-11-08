@@ -1,9 +1,9 @@
 package com.abn.amro.recipes.model.dto;
 
 import com.abn.amro.recipes.model.enums.MeasurementUnit;
-import static com.abn.amro.recipes.utils.ErrorUtils.INGREDIENT_AMOUNT_NOT_NULL_MESSAGE;
-import static com.abn.amro.recipes.utils.ErrorUtils.INGREDIENT_ID_NOT_NULL_MESSAGE;
-import static com.abn.amro.recipes.utils.ErrorUtils.MEASUREMENT_UNIT_NOT_NULL_MESSAGE;
+import static com.abn.amro.recipes.utils.ErrorConstants.INGREDIENT_AMOUNT_NOT_NULL_MESSAGE;
+import static com.abn.amro.recipes.utils.ErrorConstants.INGREDIENT_ID_NOT_NULL_MESSAGE;
+import static com.abn.amro.recipes.utils.ErrorConstants.MEASUREMENT_UNIT_NOT_NULL_MESSAGE;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;

@@ -1,7 +1,7 @@
 package com.abn.amro.recipes.model.dto;
 
-import static com.abn.amro.recipes.utils.ErrorUtils.NAME_LENGTH_MESSAGE;
-import static com.abn.amro.recipes.utils.ErrorUtils.NAME_NOT_NULL_MESSAGE;
+import static com.abn.amro.recipes.utils.ErrorConstants.NAME_LENGTH_MESSAGE;
+import static com.abn.amro.recipes.utils.ErrorConstants.NAME_NOT_NULL_MESSAGE;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
