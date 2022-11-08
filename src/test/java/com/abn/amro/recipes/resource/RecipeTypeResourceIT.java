@@ -205,13 +205,13 @@ class RecipeTypeResourceIT {
     @Test
     @Order(12)
     public void deleteRecipeType() throws Exception {
-        RecipeType existRecipeType = recipeTypeRepository.getById(1L);
+        RecipeType existRecipeType = recipeTypeRepository.getById(2L);
         mockMvc.perform(
                         delete("/api/recipe-type/{id}", existRecipeType.getId())
                                 .contentType("application/json")
                 )
                 .andExpect(status().isOk()).andReturn();
-        assertThat(recipeTypeRepository.findById(1L).orElse(null)).isNull();
+        assertThat(recipeTypeRepository.findById(2L).orElse(null)).isNull();
     }
 
     @Test

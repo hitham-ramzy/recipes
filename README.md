@@ -2,9 +2,17 @@
 
 A task of searching for Recipes and its Ingredients
 
-### The used Entities
+### Application Architecture
 
-[//]: # (TODO :: add class diagram)
+This application built using N-Tier Architecture.
+The application depends on Three main layers:
+
+- The Presentation tier which contains the REST Endpoints  (Resource Directory)
+- The Logic Tier which has all business validation (Service Directory)
+- The Data Tier which responsible for dealing with the Database (Repository Directory)
+
+### The used Entities
+![](src/main/resources/UML.png)
 
 - The Recipe Entity : A model for the Recipe:
 
@@ -33,13 +41,15 @@ A task of searching for Recipes and its Ingredients
 
 ### This application is using these technologies/frameworks:
 
-- Spring Boot
-- Swagger
-- Mysql Database
 - Docker
+- Spring Boot
+- Spring Specifications for searching for Recipes
+- Swagger UI
+- Mysql Database
+- H2 Database on local environment
 - Liquibase
 - Junit for Unit Test
-- Spring Integration Test
+- Spring Integration Test and Parameterized test cases
 
 ### How to start the app
 
@@ -72,4 +82,17 @@ To stop the container all you need it running
 - The application use docker volume, so don't care about losing your data on stopping the containers
 - If you need to clear up the database and start from beginning with the seed data use `docker-compose down -v`
 - To run the Test cases, just use `./mvnw integration-test`
+- The Application uses Spring Specifications, So you can filter on Recipes with the combination of:
+    - name (equals, notEquals, or contains)
+    - instructions (equals, notEquals, or contains)
+    - numberOfServings (equals, or notEquals)
+    - recipeTypeId (equals, or notEquals)
+    - recipeTypeName (equals, notEquals, or contains)
+    - ingredientId (equals, or notEquals)
+    - ingredientName (equals, notEquals, or contains)
 
+HINT : The combination works among these fields not among the criteria on the same field.
+
+Valid Search Criteria -> name.contains=meatBall&recipeTypeName.notEquals=VEGETARIAN
+
+Invalid Search Criteria -> name.contains=meatBall&name.notEquals=chicken
