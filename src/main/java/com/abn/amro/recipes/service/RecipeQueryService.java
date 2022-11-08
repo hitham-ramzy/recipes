@@ -8,6 +8,10 @@ import com.abn.amro.recipes.model.RecipeType;
 import com.abn.amro.recipes.model.criteria.RecipeCriteria;
 import com.abn.amro.recipes.model.dto.RecipeDTO;
 import com.abn.amro.recipes.model.dto.RecipeIngredientDTO;
+import static com.abn.amro.recipes.utils.ErrorEnum.INGREDIENT_NOT_EXIST;
+import static com.abn.amro.recipes.utils.ErrorEnum.RECIPE_NOT_EXIST;
+import static com.abn.amro.recipes.utils.ErrorEnum.RECIPE_TYPE_NOT_EXIST;
+import static com.abn.amro.recipes.utils.ErrorUtils.generateError;
 import static com.abn.amro.recipes.utils.SpecificationUtils.buildDeepReferenceSpecification;
 import static com.abn.amro.recipes.utils.SpecificationUtils.buildReferenceSpecification;
 import static com.abn.amro.recipes.utils.SpecificationUtils.buildSpecification;
@@ -42,8 +46,22 @@ public class RecipeQueryService {
 
 
     public Recipe save(RecipeDTO recipeDTO) {
-        Recipe recipe = mapFromDTO(recipeDTO);
+        Recipe recipe = mapRecipeDtoToRecipe(recipeDTO);
         return recipeService.save(recipe);
+    }
+
+    public Recipe update(Long id, RecipeDTO recipeDTO) {
+        Recipe savedRecipe = recipeService.findById(id);
+        if (savedRecipe == null) {
+            generateError(RECIPE_NOT_EXIST);
+        }
+        Recipe recipe = mapRecipeDtoToRecipe(recipeDTO);
+        savedRecipe.setName(recipe.getName());
+        savedRecipe.setInstructions(recipe.getInstructions());
+        savedRecipe.setNumberOfServings(recipe.getNumberOfServings());
+        savedRecipe.setRecipeType(recipe.getRecipeType());
+        savedRecipe.setRecipeIngredients(recipe.getRecipeIngredients());
+        return recipeService.save(savedRecipe);
     }
 
 
@@ -75,13 +93,12 @@ public class RecipeQueryService {
         return specification;
     }
 
-    private Recipe mapFromDTO(RecipeDTO recipeDTO) {
+    private Recipe mapRecipeDtoToRecipe(RecipeDTO recipeDTO) {
         Recipe recipe = RecipeMapper.INSTANCE.mapDtoToRecipe(recipeDTO);
 
         RecipeType recipeType = recipeTypeService.findById(recipeDTO.getRecipeTypeId());
         if (recipeType == null) {
-            // TODO :: enhance the way to throw exception and display more handy message by catching it
-            throw new RuntimeException("Wrong recipe type Id.");
+            generateError(RECIPE_TYPE_NOT_EXIST);
         }
         recipe.setRecipeType(recipeType);
 
@@ -91,10 +108,8 @@ public class RecipeQueryService {
 
         List<Ingredient> ingredients = ingredientService.findByIds(ingredientIds);
         if (ingredients.size() != recipeDTO.getRecipeIngredientDTOS().size()) {
-            // TODO :: enhance the way to throw exception and display more handy message by catching it
-            throw new RuntimeException("Wrong Ingredient Id added");
+            generateError(INGREDIENT_NOT_EXIST);
         }
-
 
         recipe.setRecipeIngredients(
                 ingredients.stream().map(ingredient ->

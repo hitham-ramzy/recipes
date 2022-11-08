@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IngredientRepository extends JpaRepository<Ingredient, Long>, JpaSpecificationExecutor<Ingredient> {
-    Ingredient findOneByName(String name);
+    Ingredient findOneByNameIgnoreCase(String name);
 }
