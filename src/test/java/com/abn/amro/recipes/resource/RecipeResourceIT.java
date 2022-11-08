@@ -153,6 +153,18 @@ public class RecipeResourceIT {
         assertThat(response).isEqualTo(errorMessage);
     }
 
+    @Test
+    public void findBySearchQueries() throws Exception {
+        MvcResult mvcResult = mockMvc.perform(
+                        get("/api/recipe?name.equals=Bread&instructions.contains=Flour&numberOfServings.equals=40&recipeTypeId.equals=1")
+                                .contentType("application/json")
+                )
+                .andExpect(status().isOk()).andReturn();
+        String json = mvcResult.getResponse().getContentAsString();
+        List retrievedRecipes = new ObjectMapper().readValue(json, List.class);
+        assertThat(retrievedRecipes.size()).isEqualTo(1);
+    }
+
 
     @Test
     public void deleteRecipe() throws Exception {
@@ -246,6 +258,13 @@ public class RecipeResourceIT {
                         50, Set.of(buildRandomRecipeIngredientDTO(RandomUtils.nextLong(1, 5),
                                 buildRandomMeasurementUnit(),
                                 null))), INGREDIENT_AMOUNT_NOT_NULL_MESSAGE)
+        );
+    }
+
+
+    private static Stream<Arguments> provideSearchQueries() {
+        return Stream.of(
+                Arguments.of("name.equals=ri", 1L)
         );
     }
 
