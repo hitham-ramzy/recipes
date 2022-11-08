@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,6 +43,11 @@ public class RecipeResource {
     @GetMapping()
     public ResponseEntity<List<Recipe>> findAll(RecipeCriteria criteria) {
         return ResponseEntity.ok(recipeQueryService.findAll(criteria));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Recipe> update(@PathVariable Long id, @Valid @RequestBody RecipeDTO recipeDTO) {
+        return ResponseEntity.ok(recipeQueryService.update(id, recipeDTO));
     }
 
 }

@@ -19,6 +19,7 @@ public class TestUtils {
 
     public static Integer INGREDIENTS_SEED_DATA_SIZE = 5;
     public static Integer RECIPE_TYPE_SEED_DATA_SIZE = 2;
+    public static Integer RECIPE_SEED_DATA_SIZE = 1;
 
     public static String asJsonString(final Object obj) {
         try {
@@ -81,6 +82,14 @@ public class TestUtils {
         recipeIngredientDTO.setIngredientId(RandomUtils.nextLong(1, 5));
         recipeIngredientDTO.setUnit(buildRandomMeasurementUnit());
         recipeIngredientDTO.setIngredientAmount(RandomUtils.nextDouble());
+        return recipeIngredientDTO;
+    }
+
+    public static RecipeIngredientDTO buildRandomRecipeIngredientDTO(Long ingredientId, MeasurementUnit unit, Double ingredientAmount) {
+        RecipeIngredientDTO recipeIngredientDTO = new RecipeIngredientDTO();
+        recipeIngredientDTO.setIngredientId(ingredientId);
+        recipeIngredientDTO.setUnit(unit);
+        recipeIngredientDTO.setIngredientAmount(ingredientAmount);
         return recipeIngredientDTO;
     }
 

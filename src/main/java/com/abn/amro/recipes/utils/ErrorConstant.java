@@ -16,6 +16,8 @@ public enum ErrorConstant {
 
     INGREDIENT_ALREADY_USED("Ingredient already used"),
 
+    RECIPE_NOT_EXIST("Recipe is not exist"),
+
     GENERAL_ERROR("General Error");
 
     private String message;

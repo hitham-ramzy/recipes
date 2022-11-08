@@ -12,6 +12,7 @@ import static com.abn.amro.recipes.utils.ErrorUtils.RECIPE_INGREDIENTS_SIZE;
 import static com.abn.amro.recipes.utils.ErrorUtils.RECIPE_TYPE_ID_NOT_NULL_MESSAGE;
 import lombok.Data;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -40,5 +41,6 @@ public class RecipeDTO {
 
     @Size(min = 1, message = RECIPE_INGREDIENTS_SIZE)
     @NotNull(message = RECIPE_INGREDIENTS_NOT_NULL)
+    @Valid
     private Set<RecipeIngredientDTO> recipeIngredientDTOS;
 }

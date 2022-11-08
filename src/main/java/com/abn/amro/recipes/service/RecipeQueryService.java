@@ -6,9 +6,12 @@ import com.abn.amro.recipes.model.Recipe;
 import com.abn.amro.recipes.model.RecipeIngredient;
 import com.abn.amro.recipes.model.RecipeType;
 import com.abn.amro.recipes.model.criteria.RecipeCriteria;
+import com.abn.amro.recipes.model.dto.IngredientDTO;
 import com.abn.amro.recipes.model.dto.RecipeDTO;
 import com.abn.amro.recipes.model.dto.RecipeIngredientDTO;
+import static com.abn.amro.recipes.utils.ErrorConstant.INGREDIENT_NAME_NOT_CHANGED;
 import static com.abn.amro.recipes.utils.ErrorConstant.INGREDIENT_NOT_EXIST;
+import static com.abn.amro.recipes.utils.ErrorConstant.RECIPE_NOT_EXIST;
 import static com.abn.amro.recipes.utils.ErrorConstant.RECIPE_TYPE_NOT_EXIST;
 import static com.abn.amro.recipes.utils.ErrorUtils.generateError;
 import static com.abn.amro.recipes.utils.SpecificationUtils.buildDeepReferenceSpecification;
@@ -47,6 +50,20 @@ public class RecipeQueryService {
     public Recipe save(RecipeDTO recipeDTO) {
         Recipe recipe = mapRecipeDtoToRecipe(recipeDTO);
         return recipeService.save(recipe);
+    }
+
+    public Recipe update(Long id, RecipeDTO recipeDTO) {
+        Recipe savedRecipe = recipeService.findById(id);
+        if (savedRecipe == null) {
+            generateError(RECIPE_NOT_EXIST);
+        }
+        Recipe recipe = mapRecipeDtoToRecipe(recipeDTO);
+        savedRecipe.setName(recipe.getName());
+        savedRecipe.setInstructions(recipe.getInstructions());
+        savedRecipe.setNumberOfServings(recipe.getNumberOfServings());
+        savedRecipe.setRecipeType(recipe.getRecipeType());
+        savedRecipe.setRecipeIngredients(recipe.getRecipeIngredients());
+        return recipeService.save(savedRecipe);
     }
 
 
