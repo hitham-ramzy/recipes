@@ -6,19 +6,19 @@ import com.abn.amro.recipes.repository.RecipeRepository;
 import com.abn.amro.recipes.service.IngredientService;
 import static com.abn.amro.recipes.utils.ErrorEnum.INGREDIENT_NOT_EXIST;
 import static com.abn.amro.recipes.utils.ErrorEnum.RECIPE_TYPE_NOT_EXIST;
-import static com.abn.amro.recipes.utils.ErrorUtils.INGREDIENT_AMOUNT_NOT_NULL_MESSAGE;
-import static com.abn.amro.recipes.utils.ErrorUtils.INGREDIENT_ID_NOT_NULL_MESSAGE;
-import static com.abn.amro.recipes.utils.ErrorUtils.INSTRUCTIONS_LENGTH_MESSAGE;
-import static com.abn.amro.recipes.utils.ErrorUtils.INSTRUCTIONS_NOT_NULL_MESSAGE;
-import static com.abn.amro.recipes.utils.ErrorUtils.MEASUREMENT_UNIT_NOT_NULL_MESSAGE;
-import static com.abn.amro.recipes.utils.ErrorUtils.NAME_LENGTH_MESSAGE;
-import static com.abn.amro.recipes.utils.ErrorUtils.NAME_NOT_NULL_MESSAGE;
-import static com.abn.amro.recipes.utils.ErrorUtils.NUM_OF_SERVINGS_MAX_MESSAGE;
-import static com.abn.amro.recipes.utils.ErrorUtils.NUM_OF_SERVINGS_MIN_MESSAGE;
-import static com.abn.amro.recipes.utils.ErrorUtils.NUM_OF_SERVINGS_NOT_NULL;
-import static com.abn.amro.recipes.utils.ErrorUtils.RECIPE_INGREDIENTS_NOT_NULL;
-import static com.abn.amro.recipes.utils.ErrorUtils.RECIPE_INGREDIENTS_SIZE;
-import static com.abn.amro.recipes.utils.ErrorUtils.RECIPE_TYPE_ID_NOT_NULL_MESSAGE;
+import static com.abn.amro.recipes.utils.ErrorConstants.INGREDIENT_AMOUNT_NOT_NULL_MESSAGE;
+import static com.abn.amro.recipes.utils.ErrorConstants.INGREDIENT_ID_NOT_NULL_MESSAGE;
+import static com.abn.amro.recipes.utils.ErrorConstants.INSTRUCTIONS_LENGTH_MESSAGE;
+import static com.abn.amro.recipes.utils.ErrorConstants.INSTRUCTIONS_NOT_NULL_MESSAGE;
+import static com.abn.amro.recipes.utils.ErrorConstants.MEASUREMENT_UNIT_NOT_NULL_MESSAGE;
+import static com.abn.amro.recipes.utils.ErrorConstants.NAME_LENGTH_MESSAGE;
+import static com.abn.amro.recipes.utils.ErrorConstants.NAME_NOT_NULL_MESSAGE;
+import static com.abn.amro.recipes.utils.ErrorConstants.NUM_OF_SERVINGS_MAX_MESSAGE;
+import static com.abn.amro.recipes.utils.ErrorConstants.NUM_OF_SERVINGS_MIN_MESSAGE;
+import static com.abn.amro.recipes.utils.ErrorConstants.NUM_OF_SERVINGS_NOT_NULL;
+import static com.abn.amro.recipes.utils.ErrorConstants.RECIPE_INGREDIENTS_NOT_NULL;
+import static com.abn.amro.recipes.utils.ErrorConstants.RECIPE_INGREDIENTS_SIZE;
+import static com.abn.amro.recipes.utils.ErrorConstants.RECIPE_TYPE_ID_NOT_NULL_MESSAGE;
 import static com.abn.amro.recipes.utils.TestUtils.RECIPE_SEED_DATA_SIZE;
 import static com.abn.amro.recipes.utils.TestUtils.asJsonString;
 import static com.abn.amro.recipes.utils.TestUtils.buildRandomListOfRecipeIngredientDTO;
@@ -260,14 +260,6 @@ public class RecipeResourceIT {
                                 null))), INGREDIENT_AMOUNT_NOT_NULL_MESSAGE)
         );
     }
-
-
-    private static Stream<Arguments> provideSearchQueries() {
-        return Stream.of(
-                Arguments.of("name.equals=ri", 1L)
-        );
-    }
-
 
     private static void assertRecipe(RecipeDTO recipeDTO, Recipe recipe) {
         assertThat(recipeDTO.getName()).isEqualTo(recipe.getName());

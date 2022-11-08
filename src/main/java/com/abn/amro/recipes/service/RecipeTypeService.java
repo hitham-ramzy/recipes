@@ -7,7 +7,8 @@ import static com.abn.amro.recipes.utils.ErrorEnum.NAME_ALREADY_EXIST;
 import static com.abn.amro.recipes.utils.ErrorEnum.RECIPE_TYPE_ALREADY_USED;
 import static com.abn.amro.recipes.utils.ErrorEnum.RECIPE_TYPE_NAME_NOT_CHANGED;
 import static com.abn.amro.recipes.utils.ErrorEnum.RECIPE_TYPE_NOT_EXIST;
-import static com.abn.amro.recipes.utils.ErrorUtils.generateError;
+import static com.abn.amro.recipes.utils.ErrorUtils.generateInvalidInputError;
+import static com.abn.amro.recipes.utils.ErrorUtils.generateNotFoundError;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,9 +41,9 @@ public class RecipeTypeService {
     public RecipeType update(Long id, RecipeTypeDTO recipeTypeDTO) {
         RecipeType savedRecipeType = recipeTypeRepository.findById(id).orElse(null);
         if (savedRecipeType == null) {
-            generateError(RECIPE_TYPE_NOT_EXIST);
+            generateNotFoundError();
         } else if (savedRecipeType.getName().equals(recipeTypeDTO.getName())) {
-            generateError(RECIPE_TYPE_NAME_NOT_CHANGED);
+            generateInvalidInputError(RECIPE_TYPE_NAME_NOT_CHANGED);
         }
         validateName(recipeTypeDTO.getName());
         savedRecipeType.setName(recipeTypeDTO.getName());
@@ -51,12 +52,12 @@ public class RecipeTypeService {
 
     public void delete(Long id) {
         if (!recipeTypeRepository.existsById(id)) {
-            generateError(RECIPE_TYPE_NOT_EXIST);
+            generateNotFoundError();
         }
 
         Boolean isRecipeTypeUsed = recipeService.isRecipeTypeUsed(id);
         if (isRecipeTypeUsed) {
-            generateError(RECIPE_TYPE_ALREADY_USED);
+            generateInvalidInputError(RECIPE_TYPE_ALREADY_USED);
         }
         recipeTypeRepository.deleteById(id);
     }
@@ -64,7 +65,7 @@ public class RecipeTypeService {
     private void validateName(String recipeTypeName) {
         RecipeType savedRecipeType = recipeTypeRepository.findOneByNameIgnoreCase(recipeTypeName);
         if (savedRecipeType != null) {
-            generateError(NAME_ALREADY_EXIST);
+            generateInvalidInputError(NAME_ALREADY_EXIST);
         }
     }
 }

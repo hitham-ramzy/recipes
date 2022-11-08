@@ -6,7 +6,7 @@ import com.abn.amro.recipes.repository.IngredientRepository;
 import static com.abn.amro.recipes.utils.ErrorEnum.INGREDIENT_NAME_NOT_CHANGED;
 import static com.abn.amro.recipes.utils.ErrorEnum.INGREDIENT_NOT_EXIST;
 import static com.abn.amro.recipes.utils.ErrorEnum.NAME_ALREADY_EXIST;
-import static com.abn.amro.recipes.utils.ErrorUtils.NAME_LENGTH_MESSAGE;
+import static com.abn.amro.recipes.utils.ErrorConstants.NAME_LENGTH_MESSAGE;
 import static com.abn.amro.recipes.utils.TestUtils.INGREDIENTS_SEED_DATA_SIZE;
 import static com.abn.amro.recipes.utils.TestUtils.asJsonString;
 import static com.abn.amro.recipes.utils.TestUtils.buildRandomIngredientDTO;
@@ -193,14 +193,12 @@ class IngredientResourceIT {
     @Test
     @Order(11)
     public void updateNotExistIngredient() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(
+        mockMvc.perform(
                         put("/api/ingredient/{id}", -1L)
                                 .content(asJsonString(buildRandomIngredientDTO(RandomStringUtils.randomAlphabetic(10))))
                                 .contentType("application/json")
                 )
-                .andExpect(status().isBadRequest()).andReturn();
-        String result = mvcResult.getResponse().getContentAsString();
-        assertThat(result).isEqualTo(INGREDIENT_NOT_EXIST.getMessage());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -219,13 +217,11 @@ class IngredientResourceIT {
     @Order(13)
     public void deleteNotExistIngredient() throws Exception {
         Ingredient existIngredient = ingredientRepository.getById(-1L);
-        MvcResult mvcResult = mockMvc.perform(
+        mockMvc.perform(
                         delete("/api/ingredient/{id}", existIngredient.getId())
                                 .contentType("application/json")
                 )
-                .andExpect(status().isBadRequest()).andReturn();
-        String result = mvcResult.getResponse().getContentAsString();
-        assertThat(result).isEqualTo(INGREDIENT_NOT_EXIST.getMessage());
+                .andExpect(status().isNotFound());
     }
 
 }

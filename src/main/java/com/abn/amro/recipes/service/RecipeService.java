@@ -3,7 +3,7 @@ package com.abn.amro.recipes.service;
 import com.abn.amro.recipes.model.Recipe;
 import com.abn.amro.recipes.repository.RecipeRepository;
 import static com.abn.amro.recipes.utils.ErrorEnum.RECIPE_NOT_EXIST;
-import static com.abn.amro.recipes.utils.ErrorUtils.generateError;
+import static com.abn.amro.recipes.utils.ErrorUtils.generateNotFoundError;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +36,7 @@ public class RecipeService {
 
     public void delete(Long id) {
         if (!recipeRepository.existsById(id)){
-            generateError(RECIPE_NOT_EXIST);
+            generateNotFoundError();
         }
         recipeRepository.deleteById(id);
     }

@@ -9,9 +9,9 @@ import com.abn.amro.recipes.model.criteria.RecipeCriteria;
 import com.abn.amro.recipes.model.dto.RecipeDTO;
 import com.abn.amro.recipes.model.dto.RecipeIngredientDTO;
 import static com.abn.amro.recipes.utils.ErrorEnum.INGREDIENT_NOT_EXIST;
-import static com.abn.amro.recipes.utils.ErrorEnum.RECIPE_NOT_EXIST;
 import static com.abn.amro.recipes.utils.ErrorEnum.RECIPE_TYPE_NOT_EXIST;
-import static com.abn.amro.recipes.utils.ErrorUtils.generateError;
+import static com.abn.amro.recipes.utils.ErrorUtils.generateInvalidInputError;
+import static com.abn.amro.recipes.utils.ErrorUtils.generateNotFoundError;
 import static com.abn.amro.recipes.utils.SpecificationUtils.buildDeepReferenceSpecification;
 import static com.abn.amro.recipes.utils.SpecificationUtils.buildReferenceSpecification;
 import static com.abn.amro.recipes.utils.SpecificationUtils.buildSpecification;
@@ -53,7 +53,7 @@ public class RecipeQueryService {
     public Recipe update(Long id, RecipeDTO recipeDTO) {
         Recipe savedRecipe = recipeService.findById(id);
         if (savedRecipe == null) {
-            generateError(RECIPE_NOT_EXIST);
+            generateNotFoundError();
         }
         Recipe recipe = mapRecipeDtoToRecipe(recipeDTO);
         savedRecipe.setName(recipe.getName());
@@ -98,7 +98,7 @@ public class RecipeQueryService {
 
         RecipeType recipeType = recipeTypeService.findById(recipeDTO.getRecipeTypeId());
         if (recipeType == null) {
-            generateError(RECIPE_TYPE_NOT_EXIST);
+            generateInvalidInputError(RECIPE_TYPE_NOT_EXIST);
         }
         recipe.setRecipeType(recipeType);
 
@@ -108,7 +108,7 @@ public class RecipeQueryService {
 
         List<Ingredient> ingredients = ingredientService.findByIds(ingredientIds);
         if (ingredients.size() != recipeDTO.getRecipeIngredientDTOS().size()) {
-            generateError(INGREDIENT_NOT_EXIST);
+            generateInvalidInputError(INGREDIENT_NOT_EXIST);
         }
 
         recipe.setRecipeIngredients(
