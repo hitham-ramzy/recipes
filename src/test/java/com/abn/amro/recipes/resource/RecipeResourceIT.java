@@ -3,8 +3,9 @@ package com.abn.amro.recipes.resource;
 import com.abn.amro.recipes.model.Recipe;
 import com.abn.amro.recipes.model.dto.RecipeDTO;
 import com.abn.amro.recipes.repository.RecipeRepository;
-import static com.abn.amro.recipes.utils.ErrorConstant.INGREDIENT_NOT_EXIST;
-import static com.abn.amro.recipes.utils.ErrorConstant.RECIPE_TYPE_NOT_EXIST;
+import com.abn.amro.recipes.service.IngredientService;
+import static com.abn.amro.recipes.utils.ErrorEnum.INGREDIENT_NOT_EXIST;
+import static com.abn.amro.recipes.utils.ErrorEnum.RECIPE_TYPE_NOT_EXIST;
 import static com.abn.amro.recipes.utils.ErrorUtils.INGREDIENT_AMOUNT_NOT_NULL_MESSAGE;
 import static com.abn.amro.recipes.utils.ErrorUtils.INGREDIENT_ID_NOT_NULL_MESSAGE;
 import static com.abn.amro.recipes.utils.ErrorUtils.INSTRUCTIONS_LENGTH_MESSAGE;
@@ -41,6 +42,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -65,9 +67,11 @@ public class RecipeResourceIT {
     @Autowired
     private RecipeRepository recipeRepository;
 
+    @Autowired
+    private IngredientService ingredientService;
+
     @Test
-    @Order(1)
-    public void getEmptyOffers() throws Exception {
+    public void getRecipes() throws Exception {
         MvcResult mvcResult = mockMvc.perform(
                         get("/api/recipe")
                                 .contentType("application/json")
@@ -78,9 +82,22 @@ public class RecipeResourceIT {
         assertThat(recipes.size()).isEqualTo(RECIPE_SEED_DATA_SIZE);
     }
 
-    @Order(2)
+    @Test
+    public void getRecipeById() throws Exception {
+        Long id = 1L;
+        MvcResult mvcResult = mockMvc.perform(
+                        get("/api/recipe/{id}", id)
+                                .contentType("application/json")
+                )
+                .andExpect(status().isOk()).andReturn();
+        String json = mvcResult.getResponse().getContentAsString();
+        Recipe recipe = new ObjectMapper().readValue(json, Recipe.class);
+        Recipe savedRecipe = recipeRepository.getById(id);
+        assertThat(recipe).isEqualTo(savedRecipe);
+    }
+
     @ParameterizedTest
-    @MethodSource("provideValidRecipes")
+    @MethodSource("provideValidRecipeDTOs")
     public void saveValidRecipes(RecipeDTO recipeDTO) throws Exception {
         MvcResult mvcResult = mockMvc.perform(
                         post("/api/recipe")
@@ -94,9 +111,8 @@ public class RecipeResourceIT {
         assertRecipe(recipeDTO, savedRecipe);
     }
 
-    @Order(3)
     @ParameterizedTest
-    @MethodSource("provideInvalidRecipes")
+    @MethodSource("provideInvalidRecipeDTOs")
     public void saveInvalidRecipes(RecipeDTO recipeDTO, String errorMessage) throws Exception {
         MvcResult mvcResult = mockMvc.perform(
                         post("/api/recipe")
@@ -110,7 +126,7 @@ public class RecipeResourceIT {
 
     @Order(4)
     @ParameterizedTest
-    @MethodSource("provideValidRecipes")
+    @MethodSource("provideValidRecipeDTOs")
     public void updateValidRecipes(RecipeDTO recipeDTO) throws Exception {
         MvcResult mvcResult = mockMvc.perform(
                         put("/api/recipe/{id}", 1L)
@@ -124,9 +140,8 @@ public class RecipeResourceIT {
         assertRecipe(recipeDTO, savedRecipe);
     }
 
-    @Order(5)
     @ParameterizedTest
-    @MethodSource("provideInvalidRecipes")
+    @MethodSource("provideInvalidRecipeDTOs")
     public void updateInvalidRecipes(RecipeDTO recipeDTO, String errorMessage) throws Exception {
         MvcResult mvcResult = mockMvc.perform(
                         put("/api/recipe/{id}", 1L)
@@ -138,13 +153,31 @@ public class RecipeResourceIT {
         assertThat(response).isEqualTo(errorMessage);
     }
 
-    private static List<RecipeDTO> provideValidRecipes() {
+
+    @Test
+    public void deleteRecipe() throws Exception {
+        Long id = 1L;
+        Recipe recipe = recipeRepository.getById(id);
+        Long ingredientId = recipe.getRecipeIngredients().stream().findFirst()
+                .map(recipeIngredient -> recipeIngredient.getIngredient().getId()).orElse(null);
+
+
+        mockMvc.perform(
+                        delete("/api/recipe/{id}", id)
+                                .contentType("application/json")
+                )
+                .andExpect(status().isOk()).andReturn();
+        assertThat(recipeRepository.findById(id).orElse(null)).isNull();
+        assertThat(ingredientService.findById(ingredientId)).isNotNull();
+    }
+
+    private static List<RecipeDTO> provideValidRecipeDTOs() {
         return IntStream.rangeClosed(1, RandomUtils.nextInt(2, 10))
                 .mapToObj(s -> buildRandomRecipeDTO())
                 .collect(Collectors.toList());
     }
 
-    private static Stream<Arguments> provideInvalidRecipes() {
+    private static Stream<Arguments> provideInvalidRecipeDTOs() {
 
         return Stream.of(
                 Arguments.of(buildRecipeDTO(null,

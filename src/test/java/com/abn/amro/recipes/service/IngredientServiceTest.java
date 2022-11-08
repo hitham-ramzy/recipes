@@ -2,7 +2,7 @@ package com.abn.amro.recipes.service;
 
 import com.abn.amro.recipes.model.Ingredient;
 import com.abn.amro.recipes.repository.IngredientRepository;
-import static com.abn.amro.recipes.utils.ErrorConstant.NAME_ALREADY_EXIST;
+import static com.abn.amro.recipes.utils.ErrorEnum.NAME_ALREADY_EXIST;
 import static com.abn.amro.recipes.utils.TestUtils.buildRandomIngredient;
 import org.apache.commons.lang3.RandomUtils;
 import static org.assertj.core.api.Assertions.assertThat;

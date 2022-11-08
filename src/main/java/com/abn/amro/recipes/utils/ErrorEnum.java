@@ -1,6 +1,6 @@
 package com.abn.amro.recipes.utils;
 
-public enum ErrorConstant {
+public enum ErrorEnum {
 
     NAME_ALREADY_EXIST("Name Already Exist"),
 
@@ -22,7 +22,7 @@ public enum ErrorConstant {
 
     private String message;
 
-    ErrorConstant(String message) {
+    ErrorEnum(String message) {
         this.message = message;
     }
 

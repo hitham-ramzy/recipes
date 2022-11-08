@@ -7,6 +7,7 @@ import com.abn.amro.recipes.model.dto.RecipeDTO;
 import com.abn.amro.recipes.service.RecipeQueryService;
 import com.abn.amro.recipes.service.RecipeService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,6 +49,12 @@ public class RecipeResource {
     @PutMapping("/{id}")
     public ResponseEntity<Recipe> update(@PathVariable Long id, @Valid @RequestBody RecipeDTO recipeDTO) {
         return ResponseEntity.ok(recipeQueryService.update(id, recipeDTO));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Recipe> delete(@PathVariable Long id) {
+        recipeService.delete(id);
+        return ResponseEntity.ok().build();
     }
 
 }

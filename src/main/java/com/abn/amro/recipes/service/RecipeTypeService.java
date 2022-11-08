@@ -3,10 +3,10 @@ package com.abn.amro.recipes.service;
 import com.abn.amro.recipes.model.RecipeType;
 import com.abn.amro.recipes.model.dto.RecipeTypeDTO;
 import com.abn.amro.recipes.repository.RecipeTypeRepository;
-import static com.abn.amro.recipes.utils.ErrorConstant.NAME_ALREADY_EXIST;
-import static com.abn.amro.recipes.utils.ErrorConstant.RECIPE_TYPE_ALREADY_USED;
-import static com.abn.amro.recipes.utils.ErrorConstant.RECIPE_TYPE_NAME_NOT_CHANGED;
-import static com.abn.amro.recipes.utils.ErrorConstant.RECIPE_TYPE_NOT_EXIST;
+import static com.abn.amro.recipes.utils.ErrorEnum.NAME_ALREADY_EXIST;
+import static com.abn.amro.recipes.utils.ErrorEnum.RECIPE_TYPE_ALREADY_USED;
+import static com.abn.amro.recipes.utils.ErrorEnum.RECIPE_TYPE_NAME_NOT_CHANGED;
+import static com.abn.amro.recipes.utils.ErrorEnum.RECIPE_TYPE_NOT_EXIST;
 import static com.abn.amro.recipes.utils.ErrorUtils.generateError;
 import org.springframework.stereotype.Service;
 

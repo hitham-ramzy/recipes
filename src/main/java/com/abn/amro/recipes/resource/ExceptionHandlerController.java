@@ -1,6 +1,6 @@
 package com.abn.amro.recipes.resource;
 
-import static com.abn.amro.recipes.utils.ErrorConstant.GENERAL_ERROR;
+import static com.abn.amro.recipes.utils.ErrorEnum.GENERAL_ERROR;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

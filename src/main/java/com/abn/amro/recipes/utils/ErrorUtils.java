@@ -16,7 +16,7 @@ public class ErrorUtils {
     public static final String RECIPE_INGREDIENTS_NOT_NULL = "Recipe must have not be null";
     public static final String RECIPE_TYPE_ID_NOT_NULL_MESSAGE = "Recipe Type Id must not be null";
 
-    public static void generateError(ErrorConstant constant) {
+    public static void generateError(ErrorEnum constant) {
         throw new RuntimeException(constant.getMessage());
     }
 
