@@ -54,18 +54,29 @@ public class TestUtils {
         recipeDTO.setName(RandomStringUtils.randomAlphabetic(10));
         recipeDTO.setRecipeTypeId(RandomUtils.nextLong(1, 2));
         recipeDTO.setInstructions(RandomStringUtils.randomAlphabetic(100));
-        recipeDTO.setNumberOfServings(RandomUtils.nextInt());
+        recipeDTO.setNumberOfServings(RandomUtils.nextInt(1, 50));
         recipeDTO.setRecipeIngredientDTOS(buildRandomListOfRecipeIngredientDTO());
         return recipeDTO;
     }
 
-    private static Set<RecipeIngredientDTO> buildRandomListOfRecipeIngredientDTO() {
+    public static RecipeDTO buildRecipeDTO(String name, Long recipeTypeId, String instructions,
+                                                 Integer numberOfServings, Set<RecipeIngredientDTO> recipeIngredientDTOS) {
+        RecipeDTO recipeDTO = new RecipeDTO();
+        recipeDTO.setName(name);
+        recipeDTO.setRecipeTypeId(recipeTypeId);
+        recipeDTO.setInstructions(instructions);
+        recipeDTO.setNumberOfServings(numberOfServings);
+        recipeDTO.setRecipeIngredientDTOS(recipeIngredientDTOS);
+        return recipeDTO;
+    }
+
+    public static Set<RecipeIngredientDTO> buildRandomListOfRecipeIngredientDTO() {
         return IntStream.rangeClosed(1, RandomUtils.nextInt(2, 5))
                 .mapToObj(s -> buildRandomRecipeIngredientDTO())
                 .collect(Collectors.toSet());
     }
 
-    private static RecipeIngredientDTO buildRandomRecipeIngredientDTO() {
+    public static RecipeIngredientDTO buildRandomRecipeIngredientDTO() {
         RecipeIngredientDTO recipeIngredientDTO = new RecipeIngredientDTO();
         recipeIngredientDTO.setIngredientId(RandomUtils.nextLong(1, 5));
         recipeIngredientDTO.setUnit(buildRandomMeasurementUnit());
