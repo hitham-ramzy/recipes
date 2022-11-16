@@ -18,6 +18,8 @@ public enum ErrorEnum {
 
     RECIPE_NOT_EXIST("Recipe is not exist"),
 
+    RECIPE_ALREADY_EXIST("Recipe Already Exist"),
+
     GENERAL_ERROR("General Error");
 
     private String message;

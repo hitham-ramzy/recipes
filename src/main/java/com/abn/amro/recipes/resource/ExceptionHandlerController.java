@@ -40,7 +40,7 @@ public class ExceptionHandlerController {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleException(Exception e) {
         logger.error(e.getMessage());
-        return ResponseEntity.status(500).body(e.getMessage());
+        return ResponseEntity.status(500).body(GENERAL_ERROR.getMessage());
     }
 
 }

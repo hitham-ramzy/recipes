@@ -7,5 +7,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RecipeRepository extends JpaRepository<Recipe, Long>, JpaSpecificationExecutor<Recipe> {
+
     Boolean existsByRecipeTypeId(Long id);
+
+    Boolean existsByName(String name);
 }
