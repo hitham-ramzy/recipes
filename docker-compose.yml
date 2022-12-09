@@ -12,6 +12,7 @@ services:
       - data_volume:/var/lib/mysql
 
   app:
+    image: hitham/recipes-application
     depends_on:
       - mysqldb
     build: .
